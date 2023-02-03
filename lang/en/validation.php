@@ -179,6 +179,10 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'firstname' => 'first name',
+        'lastname' => 'last name',
+        'middleinitial' => 'middle initial'
+    ],
 
 ];

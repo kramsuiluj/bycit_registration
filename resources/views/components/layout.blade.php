@@ -5,17 +5,14 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="icon" href="{{asset('images/JPCS.png')}}" type="image/png">
     <title>BYCIT Registration</title>
     <style>
         body {
-            /*background: rgb(22,17,119);*/
-            /*background: linear-gradient(54deg, rgba(22,17,119,1) 0%, rgba(51,51,188,1) 35%, rgba(255,0,235,1) 100%);*/
-            /*background-repeat: no-repeat;*/
             background-image: url({{ asset('images/background.png') }});
             background-repeat: repeat-y;
-            position: fixed;
+            /*position: fixed;*/
             overflow-y: scroll;
             width: 100%;
         }
