@@ -18,7 +18,7 @@ class Registration extends Model
 
     public function fullname()
     {
-        return $this->lastname . ', ' . $this->firstname . ' ' . $this->middle_initial . '.' ?? '';
+        return $this->lastname . ', ' . $this->firstname . ' ' . ($this->middle_initial != '' ? $this->middle_initial . '.' : '');
     }
 
     public function confirmed()
