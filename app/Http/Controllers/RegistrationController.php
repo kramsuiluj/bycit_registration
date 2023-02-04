@@ -30,7 +30,7 @@ class RegistrationController extends Controller
     public function store()
     {
         $types = ['Student', 'Teacher'];
-        $schoolIDs = [1, 2, 3, 4, 5, 6];
+        $schoolIDs = School::get('id')->pluck('id');
 
         $attributes = request()->validate([
             'lastname' => ['required', 'max:255', 'regex:/^[a-zA-zÑñ\s]+$/'],
