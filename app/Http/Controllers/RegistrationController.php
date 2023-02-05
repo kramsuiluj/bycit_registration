@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\RemoveEmptyGetRequests;
 use App\Models\Registration;
 use App\Models\School;
 use App\Rules\EmptyOrAlpha;
@@ -11,13 +12,14 @@ use Rap2hpoutre\FastExcel\FastExcel;
 
 class RegistrationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(RemoveEmptyGetRequests::class)->only('index');
+    }
+
     public function index()
     {
         $registrations = Registration::latest()->filter(request(['school', 'confirmed', 'type']))->paginate(50)->withQueryString();
-
-//        if (request()->has('sort')) {
-//            $registrations = Registration::latest()->filter(request(['school', 'confirmed']))->orderBy('type', 'desc')->paginate(50)->withQueryString();
-//        }
 
         return view('registrations.index', [
             'registrations' => $registrations,
@@ -95,15 +97,15 @@ class RegistrationController extends Controller
 
         return (new FastExcel($list))
             ->download(Carbon::now()->toDateTimeString() . '-participants.xlsx', function ($list) {
-            return [
-                'School' => $list['school'],
-                'Last Name' => $list['lastname'],
-                'First Name' => $list['firstname'],
-                'Middle Initial' => $list['middle_initial'],
-                'Type' => $list['type'],
-                'Confirmed' => $list['confirmed'],
-                'Date Registered' => $list['date_registered']
-            ];
-        });
+                return [
+                    'School' => $list['school'],
+                    'Last Name' => $list['lastname'],
+                    'First Name' => $list['firstname'],
+                    'Middle Initial' => $list['middle_initial'],
+                    'Type' => $list['type'],
+                    'Confirmed' => $list['confirmed'],
+                    'Date Registered' => $list['date_registered']
+                ];
+            });
     }
 }

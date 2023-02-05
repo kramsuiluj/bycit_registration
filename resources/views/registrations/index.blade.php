@@ -1,5 +1,5 @@
 <x-layout>
-    <header class="mb-8 sm:mb-12 w-11/12 mx-auto py-5">
+    <header class="mb-8 sm:mb-10 w-11/12 mx-auto py-5">
         <div class="flex items-center justify-between">
             <div class="flex items-center space-x-4 justify-start">
                 <img src="{{ asset('images/JPCS.png') }}" alt="JPCS Logo" class="w-12 sm:w-14">
@@ -25,10 +25,10 @@
 
     <div class="w-11/12 mx-auto font-montserrat pb-5 flex justify-between items-end">
         <div class="flex items-end space-x-1">
-            <form action="" class="flex items-end space-x-1">
+            <form id="filter-form" action="" class="flex items-end space-x-1">
                 <div class="flex flex-col space-y-1">
                     <label class="text-white drop-shadow-md text-sm" for="school">College</label>
-                    <select name="school" id="">
+                    <select name="school" id="school">
                         <option value="">All</option>
                         @foreach($schools as $school)
                             <option value="{{ $school->id }}" {{ $school->id == request('school') ? 'selected' : '' }}>{{
@@ -39,8 +39,8 @@
                 </div>
 
                 <div class="flex flex-col space-y-1">
-                    <label class="text-white drop-shadow-md text-sm" for="school">Confirmed</label>
-                    <select name="confirmed" id="">
+                    <label class="text-white drop-shadow-md text-sm" for="confirmed">Confirmed</label>
+                    <select name="confirmed" id="confirmed">
                         <option value="">All</option>
                         <option value="yes" {{ request('confirmed') == 'yes' ? 'selected' : '' }}>Confirmed</option>
                         <option value="no" {{ request('confirmed') == 'no' ? 'selected' : '' }}>Unconfirmed</option>
@@ -58,9 +58,11 @@
                 </div>
 
                 <div>
-                    <button type="submit" class="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4
+                    <button id="filter-btn" type="submit" class="text-white bg-purple-700 hover:bg-purple-800
+                    focus:outline-none
+                    focus:ring-4
              focus:ring-purple-300 font-medium text-sm px-5 py-2.5 text-center dark:bg-purple-600
-             dark:hover:bg-purple-700 dark:focus:ring-purple-900 border">
+             dark:hover:bg-purple-700 dark:focus:ring-purple-900 border border-purple-800">
                         Filter
                     </button>
                 </div>
@@ -80,12 +82,13 @@
                 hover:bg-green-800
                 focus:outline-none
                 focus:ring-4
-             focus:ring-green-300 font-medium border text-sm px-5 py-2.5 text-center dark:bg-green-600
+             focus:ring-green-300 font-medium border border-green-800 text-sm px-5 py-2.5 text-center dark:bg-green-600
              dark:hover:bg-green-700 dark:focus:ring-green-900">Export Record</button>
             </form>
         </div>
 
-        <p class="text-white drop-shadow-lg text-lg">Participants: <span class="font-bold">{{ $totalRegistrations
+        <p class="text-white drop-shadow-lg text-sm">PARTICIPANTS: <span class="font-bold text-lg">{{
+        $totalRegistrations
         }}</span></p>
     </div>
 
@@ -130,13 +133,13 @@
                                         </td>
                                         @if($registration->isStudent())
                                             <td class="text-sm text-gray-900 py-3 whitespace-nowrap border-r
-                                            bg-blue-400
+                                            bg-blue-500
                                             text-white">
                                                 <span class="px-1">{{ $registration->type }}</span>
                                             </td>
                                         @else
-                                        <td class="text-sm text-gray-900 font-light  py-3 whitespace-nowrap border-r
-                                        bg-purple-400 text-white">
+                                        <td class="text-sm text-gray-900 py-3 whitespace-nowrap border-r
+                                        bg-purple-500 text-white">
                                                 <span class="px-1">{{ $registration->type }}</span>
                                             </td>
                                         @endif
@@ -284,7 +287,6 @@
             let formID = 'delete-form-' + element.id;
             document.getElementById(formID).submit();
         }
-
 
     </script>
 </x-layout>
