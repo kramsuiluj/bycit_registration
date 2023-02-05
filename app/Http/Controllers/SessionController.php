@@ -25,4 +25,11 @@ class SessionController extends Controller
 
         return redirect(route('registrations.index'));
     }
+
+    public function logout()
+    {
+        auth()->logout();
+
+        return redirect(route('registrations.create'));
+    }
 }

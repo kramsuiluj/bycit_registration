@@ -14,4 +14,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('admin/registrations/export', [RegistrationController::class, 'export'])->name('registrations.export');
     Route::patch('admin/registrations/{registration}', [RegistrationController::class, 'update'])->name('registrations.update');
     Route::delete('admin/registrations/{registration}/delete', [RegistrationController::class, 'destroy'])->name('registrations.destroy');
+    Route::delete('/logout', [SessionController::class, 'logout'])->name('logout');
 });

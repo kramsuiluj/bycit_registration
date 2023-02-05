@@ -23,13 +23,19 @@ class Registration extends Model
 
     public function confirmed()
     {
-        if ($this->confirmed == 'yes') {
-            return '<span class="text-blue-500">Confirmed</span>';
-        }
+//        if ($this->confirmed == 'yes') {
+//            return '<span class="text-blue-500">Confirmed</span>';
+//        }
+//
+//        if ($this->confirmed == 'no') {
+//            return '<span class="text-blue-500">Confirmed</span>';
+//        }
+        return $this->confirmed == 'yes';
+    }
 
-        if ($this->confirmed == 'no') {
-            return '<span class="text-blue-500">Confirmed</span>';
-        }
+    public function isStudent(): bool
+    {
+        return $this->type === 'Student';
     }
 
     public function scopeFilter($query, array $filters)
@@ -43,6 +49,18 @@ class Registration extends Model
         $query->when($filters['confirmed'] ?? false, fn($query, $confirmed) =>
             $query->where(fn($query) =>
                 $query->where('confirmed', $confirmed)
+            )
+        );
+
+        $query->when($filters['type'] ?? false, fn($query, $type) =>
+            $query->where(fn($query) =>
+                $query->where('type', $type)
+            )
+        );
+
+        $query->when($filters['sort'] ?? false, fn($query, $confirmed) =>
+            $query->where(fn($query) =>
+                $query->orderBy('type')
             )
         );
     }

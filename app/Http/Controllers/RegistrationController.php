@@ -13,10 +13,17 @@ class RegistrationController extends Controller
 {
     public function index()
     {
+        $registrations = Registration::latest()->filter(request(['school', 'confirmed', 'type']))->paginate(50)->withQueryString();
+
+//        if (request()->has('sort')) {
+//            $registrations = Registration::latest()->filter(request(['school', 'confirmed']))->orderBy('type', 'desc')->paginate(50)->withQueryString();
+//        }
+
         return view('registrations.index', [
-            'registrations' => Registration::latest()->filter(request(['school', 'confirmed']))->paginate(50)->withQueryString(),
-            'totalRegistrations' => Registration::latest()->filter(request(['school', 'confirmed']))->count(),
-            'schools' => School::all()
+            'registrations' => $registrations,
+            'totalRegistrations' => Registration::latest()->filter(request(['school', 'confirmed', 'type']))->count(),
+            'schools' => School::all(),
+            'types' => ['Student', 'Teacher']
         ]);
     }
 

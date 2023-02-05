@@ -10,11 +10,17 @@
     <title>BYCIT Registration</title>
     <style>
         body {
-            background-image: url({{ asset('images/background.png') }});
-            background-repeat: repeat-y;
+            {{--background-image: url({{ asset('images/background.png') }});--}}
+            /*background-repeat: repeat-y;*/
             /*position: fixed;*/
-            overflow-y: scroll;
+            /*overflow-y: scroll;*/
+            background: rgb(22,17,119);
+            background: linear-gradient(34deg, rgba(22,17,119,1) 0%, rgba(51,51,188,1) 35%, rgba(255,0,235,1) 100%);
+            /*background-repeat: no-repeat;*/
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             width: 100%;
+            height: 100%;
         }
 
         input[type="radio"] {
