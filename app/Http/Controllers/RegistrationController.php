@@ -85,7 +85,7 @@ class RegistrationController extends Controller
 
     public function export()
     {
-        $registrations = Registration::latest()->filter(request(['school', 'confirmed']))->get();
+        $registrations = Registration::latest()->filter(request(['school', 'confirmed', 'type']))->get();
 
         $list = collect($registrations)->map(function ($registration) {
             $registration['school'] = $registration->school->name;
