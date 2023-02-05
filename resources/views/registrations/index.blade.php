@@ -73,6 +73,7 @@
 
                 <input type="hidden" name="school" value="{{ request('school') }}">
                 <input type="hidden" name="confirmed" value="{{ request('confirmed') }}">
+                <input type="hidden" name="type" value="{{ request('type') }}">
 
                 <button type="submit" class="text-white
                 bg-green-700
