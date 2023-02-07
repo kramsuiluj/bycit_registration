@@ -23,8 +23,12 @@ class RegistrationFactory extends Factory
             'firstname' => $this->faker->firstName,
             'middle_initial' => $this->faker->randomLetter,
             'type' => $this->faker->randomElement(['Student', 'Teacher']),
-            'confirmed' => $this->faker->randomElement(['yes', 'no']),
+            'paid' => $this->faker->randomElement(['yes', 'no']),
+            'firstDay' => $this->faker->randomElement(['yes', 'no']),
+            'secondDay' => $this->faker->randomElement(['yes', 'no']),
+            'tshirt' => $this->faker->randomElement(['XS','S','M','L','XL','2XL','3XL','4XL']),
             'date_registered' => Carbon::now()
         ];
     }
 }
+

@@ -21,16 +21,16 @@ class Registration extends Model
         return $this->lastname . ', ' . $this->firstname . ' ' . ($this->middle_initial != '' ? $this->middle_initial . '.' : '');
     }
 
-    public function confirmed()
+    public function paid()
     {
-//        if ($this->confirmed == 'yes') {
+//        if ($this->paid == 'yes') {
 //            return '<span class="text-blue-500">Confirmed</span>';
 //        }
 //
-//        if ($this->confirmed == 'no') {
+//        if ($this->paid == 'no') {
 //            return '<span class="text-blue-500">Confirmed</span>';
 //        }
-        return $this->confirmed == 'yes';
+        return $this->paid == 'yes';
     }
 
     public function isStudent(): bool
@@ -46,9 +46,9 @@ class Registration extends Model
             )
         );
 
-        $query->when($filters['confirmed'] ?? false, fn($query, $confirmed) =>
+        $query->when($filters['paid'] ?? false, fn($query, $paid) =>
             $query->where(fn($query) =>
-                $query->where('confirmed', $confirmed)
+                $query->where('paid', $paid)
             )
         );
 
@@ -58,7 +58,7 @@ class Registration extends Model
             )
         );
 
-        $query->when($filters['sort'] ?? false, fn($query, $confirmed) =>
+        $query->when($filters['sort'] ?? false, fn($query, $paid) =>
             $query->where(fn($query) =>
                 $query->orderBy('type')
             )

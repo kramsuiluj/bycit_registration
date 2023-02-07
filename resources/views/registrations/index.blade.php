@@ -39,11 +39,11 @@
                 </div>
 
                 <div class="flex flex-col space-y-1">
-                    <label class="text-white drop-shadow-md text-sm" for="confirmed">Confirmed</label>
-                    <select name="confirmed" id="confirmed">
+                    <label class="text-white drop-shadow-md text-sm" for="paid">Paid</label>
+                    <select name="paid" id="paid">
                         <option value="">All</option>
-                        <option value="yes" {{ request('confirmed') == 'yes' ? 'selected' : '' }}>Confirmed</option>
-                        <option value="no" {{ request('confirmed') == 'no' ? 'selected' : '' }}>Unconfirmed</option>
+                        <option value="yes" {{ request('paid') == 'yes' ? 'selected' : '' }}>Paid</option>
+                        <option value="no" {{ request('paid') == 'no' ? 'selected' : '' }}>Unpaid</option>
                     </select>
                 </div>
 
@@ -74,7 +74,7 @@
                 @csrf
 
                 <input type="hidden" name="school" value="{{ request('school') }}">
-                <input type="hidden" name="confirmed" value="{{ request('confirmed') }}">
+                <input type="hidden" name="paid" value="{{ request('paid') }}">
                 <input type="hidden" name="type" value="{{ request('type') }}">
 
                 <button type="submit" class="text-white
@@ -116,7 +116,16 @@
                                         Date Registered
                                     </th>
                                     <th scope="col" class="text-sm font-medium text-gray-900  py-4 border-r">
-                                        Confirmation
+                                        T-shirt Size
+                                    </th>
+                                    <th scope="col" class="text-sm font-medium text-gray-900  py-4 border-r">
+                                        Paid
+                                    </th>
+                                    <th scope="col" class="text-sm font-medium text-gray-900  py-4 border-r">
+                                        First Day Attendance
+                                    </th>
+                                    <th scope="col" class="text-sm font-medium text-gray-900  py-4 border-r">
+                                        Second Day
                                     </th>
                                     <th colspan="2" class="text-sm font-medium text-gray-900  py-4 border-r">
                                         Actions
@@ -150,25 +159,58 @@
                                         <td class="text-sm text-gray-900 font-light  py-3 whitespace-nowrap border-r">
                                             {{ $registration->date_registered }}
                                         </td>
+                                        <td class="text-sm text-gray-900 font-light  py-3 whitespace-nowrap border-r">
+                                            {{ $registration->tshirt }}
+                                        </td>
 
-                                        @if($registration->confirmed === 'yes')
+                                        @if($registration->paid === 'yes')
                                             <td class="text-sm text-gray-900  py-3 whitespace-nowrap border-r
                                             bg-green-400 text-white">
-                                                <span class="">Confirmed</span>
+                                                <span class="">Paid</span>
                                             </td>
                                         @endif
 
-                                        @if($registration->confirmed === 'no')
+                                        @if($registration->paid === 'no')
                                             <td class="text-sm text-gray-900  py-3 whitespace-nowrap border-r
                                             bg-gray-400
                                              text-white">
-                                                Unconfirmed
+                                                Unpaid
+                                            </td>
+                                        @endif
+                                        @if($registration->firstDay === 'yes')
+                                            <td class="text-sm text-gray-900  py-3 whitespace-nowrap border-r
+                                            bg-green-400 text-white" id="{{ $registration->id }}" onclick="updateFirst(this)">
+                                                <span class="">Attended</span>
                                             </td>
                                         @endif
 
-                                        @if($registration->confirmed())
+                                        @if($registration->firstDay === 'no')
+                                            <td class="text-sm text-gray-900  py-3 whitespace-nowrap border-r
+                                            bg-gray-400
+                                             text-white" id="{{ $registration->id }}" onclick="updateFirst(this)">
+                                                Did not attend
+                                            </td>
+                                        @endif
+
+                                        @if($registration->secondDay === 'yes')
+                                            <td class="text-sm text-gray-900  py-3 whitespace-nowrap border-r
+                                            bg-green-400 text-white" id="{{ $registration->id }}" onclick="updateSecond(this)">
+                                                <span class="">Attended</span>
+                                            </td>
+                                        @endif
+
+                                        @if($registration->secondDay === 'no')
+                                            <td class="text-sm text-gray-900  py-3 whitespace-nowrap border-r
+                                            bg-gray-400
+                                             text-white" id="{{ $registration->id }}" onclick="updateSecond(this)">
+                                                Did not attend
+                                            </td>
+                                        @endif
+{{-- MARKER MARKGER TODO:AHHHH --}}
+
+                                        @if($registration->paid())
                                             <td class="text-sm text-gray-900 font-light whitespace-nowrap
-                                            bg-gray-500 px-2 cursor-pointer text-white hover:bg-gray-600" id="{{ $registration->id }}" onclick="updateConfirmation(this)">
+                                            bg-gray-500 px-2 cursor-pointer text-white hover:bg-gray-600" id="{{ $registration->id }}" onclick="updatePaid(this)">
                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                      fill="none" viewBox="0 0 24
                                                     24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mx-auto">
@@ -177,13 +219,14 @@
                                             </td>
                                         @else
                                             <td class="text-sm text-gray-900 font-light whitespace-nowrap
-                                            bg-green-500 px-2 cursor-pointer text-white hover:bg-green-600" id="{{ $registration->id }}" onclick="updateConfirmation(this)">
+                                            bg-green-500 px-2 cursor-pointer text-white hover:bg-green-600" id="{{ $registration->id }}" onclick="updatePaid(this)">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24
                                                     24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mx-auto">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                                 </svg>
                                             </td>
                                         @endif
+                                        
                                         <td class="text-sm text-gray-900 font-light whitespace-nowrap bg-red-500
                                         text-white
                                         px-2
@@ -197,6 +240,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                                             </svg>
                                         </td>
+                                        
                                     </tr>
 
                                     <div id="popup-modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden
@@ -236,7 +280,7 @@
                                     </form>
 
                                     <form
-                                        id="update-form-{{ $registration->id }}"
+                                        id="update-paid{{ $registration->id }}"
                                         action="{{ route('registrations.update', $registration->id) }}"
                                         method="POST"
                                         style="display: none"
@@ -244,6 +288,27 @@
                                         @csrf
                                         @method('PATCH')
                                     </form>
+
+                                    <form
+                                        id="update-first-day{{ $registration->id }}"
+                                        action="{{ route('registrations.updateFirstDay', $registration->id) }}"
+                                        method="POST"
+                                        style="display: none"
+                                    >
+                                        @csrf
+                                        @method('PATCH')
+                                    </form>
+
+                                    <form
+                                        id="update-second-day{{ $registration->id }}"
+                                        action="{{ route('registrations.updateSecondDay', $registration->id) }}"
+                                        method="POST"
+                                        style="display: none"
+                                    >
+                                        @csrf
+                                        @method('PATCH')
+                                    </form>
+
                                 @endforeach
                                 </tbody>
                             </table>
@@ -278,11 +343,21 @@
 
     <script>
 
-        function updateConfirmation(element) {
-            let formID = 'update-form-' + element.id;
+        function updatePaid(element) {
+            let formID = 'update-paid' + element.id;
             document.getElementById(formID).submit();
         }
 
+        function updateFirst(element) {
+            let formID = 'update-first-day' + element.id;
+            document.getElementById(formID).submit();
+        }
+
+        function updateSecond(element) {
+            let formID = 'update-second-day' + element.id;
+            document.getElementById(formID).submit();
+        }
+        
         function deleteParticipant(element) {
             let formID = 'delete-form-' + element.id;
             document.getElementById(formID).submit();

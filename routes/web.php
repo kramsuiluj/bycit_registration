@@ -13,6 +13,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('admin/registrations', [RegistrationController::class, 'index'])->name('registrations.index');
     Route::post('admin/registrations/export', [RegistrationController::class, 'export'])->name('registrations.export');
     Route::patch('admin/registrations/{registration}', [RegistrationController::class, 'update'])->name('registrations.update');
+    Route::patch('admin/registrations/first/{registration}', [RegistrationController::class, 'updateFirstDay'])->name('registrations.updateFirstDay');
+    Route::patch('admin/registrations/second/{registration}', [RegistrationController::class, 'updateSecondDay'])->name('registrations.updateSecondDay');
+
     Route::delete('admin/registrations/{registration}/delete', [RegistrationController::class, 'destroy'])->name('registrations.destroy');
     Route::delete('/logout', [SessionController::class, 'logout'])->name('logout');
 });
