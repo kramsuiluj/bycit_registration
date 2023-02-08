@@ -146,7 +146,7 @@ class RegistrationController extends Controller
 
         $list = collect($registrations)->map(function ($registration) {
             $registration['school'] = $registration->school->name;
-            return $registration->only(['school', 'lastname', 'firstname', 'middle_initial', 'type', 'paid', 'date_registered']);
+            return $registration->only(['school', 'lastname', 'firstname', 'middle_initial', 'type', 'tshirt', 'paid', 'firstDay', 'secondDay', 'date_registered']);
         });
 
 
@@ -158,7 +158,10 @@ class RegistrationController extends Controller
                     'First Name' => $list['firstname'],
                     'Middle Initial' => $list['middle_initial'],
                     'Type' => $list['type'],
-                    'paid' => $list['paid'],
+                    'T-Shirt Size' => $list['tshirt'],
+                    'Paid' => $list['paid'],
+                    'Attendance (1st Day)' => $list['firstDay'],
+                    'Attendance (2nd Day)' => $list['secondDay'],
                     'Date Registered' => $list['date_registered']
                 ];
             });
