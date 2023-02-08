@@ -26,7 +26,7 @@ class RegistrationController extends Controller
             'totalRegistrations' => Registration::latest()->filter(request(['school', 'paid', 'type']))->count(),
             'schools' => School::all(),
             'types' => ['Student', 'Teacher'],
-            
+
         ]);
     }
 
@@ -41,6 +41,7 @@ class RegistrationController extends Controller
     {
         $types = ['Student', 'Teacher'];
         $schoolIDs = School::get('id')->pluck('id');
+        $sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL'];
 
         $attributes = request()->validate([
             'lastname' => ['required', 'max:255', 'regex:/^[a-zA-zÑñ\s]+$/'],
@@ -48,7 +49,7 @@ class RegistrationController extends Controller
             'middleinitial' => ['max:2', new EmptyOrAlpha],
             'school' => ['required', Rule::in($schoolIDs)],
             'type' => ['required', Rule::in($types)],
-            'size' => ['required']
+            'size' => ['required', Rule::in($sizes)]
         ]);
 
         Registration::create([
@@ -57,6 +58,7 @@ class RegistrationController extends Controller
             'firstname' => $attributes['firstname'],
             'middle_initial' => $attributes['middleinitial'],
             'type' => $attributes['type'],
+            'tshirt' => $attributes['size'],
             'date_registered' => Carbon::now()
         ]);
 
@@ -77,10 +79,11 @@ class RegistrationController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'You have successfully updated the confirmation status.');
+        return redirect()->back()->with('success', 'You have successfully updated the payment status.');
     }
 
-    public function updateFirstDay(Registration $registration){
+    public function updateFirstDay(Registration $registration)
+    {
         if ($registration->firstDay === 'yes') {
             $registration->update([
                 'firstDay' => 'no'
@@ -93,9 +96,11 @@ class RegistrationController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'You have successfully updated the confirmation status.');
+        return redirect()->back()->with('success', 'You have successfully updated the attendance status.');
     }
-    public function updateSecondDay(Registration $registration){
+
+    public function updateSecondDay(Registration $registration)
+    {
         if ($registration->secondDay === 'yes') {
             $registration->update([
                 'secondDay' => 'no'
@@ -108,8 +113,25 @@ class RegistrationController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'You have successfully updated the confirmation status.');
+        return redirect()->back()->with('success', 'You have successfully updated the attendance status.');
     }
+
+//    public function updatePayment(Registration $registration)
+//    {
+//        if ($registration->paid === 'yes') {
+//            $registration->update([
+//                'paid' => 'no'
+//            ]);
+//        } else {
+//            if ($registration->paid === 'no') {
+//                $registration->update([
+//                    'paid' => 'yes'
+//                ]);
+//            }
+//        }
+//
+//        return redirect()->back()->with('success', 'You have successfully updated the confirmation status.');
+//    }
 
     public function destroy(Registration $registration)
     {

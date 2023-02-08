@@ -121,11 +121,12 @@
                                     <th scope="col" class="text-sm font-medium text-gray-900  py-4 border-r">
                                         Paid
                                     </th>
-                                    <th scope="col" class="text-sm font-medium text-gray-900  py-4 border-r">
-                                        First Day Attendance
+                                    <th scope="col" class="text-sm font-medium text-gray-900  py-4
+                                    border-r">
+                                        Attendance (<i>1st Day</i>)
                                     </th>
                                     <th scope="col" class="text-sm font-medium text-gray-900  py-4 border-r">
-                                        Second Day
+                                        Attendance (<i>2nd Day</i>)
                                     </th>
                                     <th colspan="2" class="text-sm font-medium text-gray-900  py-4 border-r">
                                         Actions
@@ -164,49 +165,52 @@
                                         </td>
 
                                         @if($registration->paid === 'yes')
-                                            <td class="text-sm text-gray-900  py-3 whitespace-nowrap border-r
+                                            <td id="{{ $registration->id }}"
+                                                class="text-sm text-gray-900 py-3 whitespace-nowrap border-r
                                             bg-green-400 text-white">
                                                 <span class="">Paid</span>
                                             </td>
                                         @endif
 
                                         @if($registration->paid === 'no')
-                                            <td class="text-sm text-gray-900  py-3 whitespace-nowrap border-r
+                                            <td id="{{ $registration->id }}"
+                                                class="text-sm text-gray-900  py-3 whitespace-nowrap border-r
                                             bg-gray-400
                                              text-white">
                                                 Unpaid
                                             </td>
                                         @endif
                                         @if($registration->firstDay === 'yes')
-                                            <td class="text-sm text-gray-900  py-3 whitespace-nowrap border-r
-                                            bg-green-400 text-white" id="{{ $registration->id }}" onclick="updateFirst(this)">
+                                            <td class="text-sm text-gray-900  py-3 whitespace-nowrap border-r cursor-pointer
+                                            bg-green-400 hover:bg-green-600 text-white" id="{{ $registration->id }}"
+                                                onclick="updateFirst(this)">
                                                 <span class="">Attended</span>
                                             </td>
                                         @endif
 
                                         @if($registration->firstDay === 'no')
                                             <td class="text-sm text-gray-900  py-3 whitespace-nowrap border-r
-                                            bg-gray-400
+                                            bg-gray-400 cursor-pointer hover:bg-gray-600
                                              text-white" id="{{ $registration->id }}" onclick="updateFirst(this)">
                                                 Did not attend
                                             </td>
                                         @endif
 
                                         @if($registration->secondDay === 'yes')
-                                            <td class="text-sm text-gray-900  py-3 whitespace-nowrap border-r
-                                            bg-green-400 text-white" id="{{ $registration->id }}" onclick="updateSecond(this)">
+                                            <td class="text-sm text-gray-900  py-3 whitespace-nowrap border-r cursor-pointer
+                                            bg-green-400 text-white hover:bg-green-600" id="{{ $registration->id }}"
+                                                onclick="updateSecond(this)">
                                                 <span class="">Attended</span>
                                             </td>
                                         @endif
 
                                         @if($registration->secondDay === 'no')
                                             <td class="text-sm text-gray-900  py-3 whitespace-nowrap border-r
-                                            bg-gray-400
+                                            bg-gray-400 cursor-pointer hover:bg-gray-600
                                              text-white" id="{{ $registration->id }}" onclick="updateSecond(this)">
                                                 Did not attend
                                             </td>
                                         @endif
-{{-- MARKER MARKGER TODO:AHHHH --}}
 
                                         @if($registration->paid())
                                             <td class="text-sm text-gray-900 font-light whitespace-nowrap
@@ -226,7 +230,7 @@
                                                 </svg>
                                             </td>
                                         @endif
-                                        
+
                                         <td class="text-sm text-gray-900 font-light whitespace-nowrap bg-red-500
                                         text-white
                                         px-2
@@ -240,7 +244,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                                             </svg>
                                         </td>
-                                        
+
                                     </tr>
 
                                     <div id="popup-modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden
@@ -280,7 +284,7 @@
                                     </form>
 
                                     <form
-                                        id="update-paid{{ $registration->id }}"
+                                        id="update-paid-{{ $registration->id }}"
                                         action="{{ route('registrations.update', $registration->id) }}"
                                         method="POST"
                                         style="display: none"
@@ -344,7 +348,7 @@
     <script>
 
         function updatePaid(element) {
-            let formID = 'update-paid' + element.id;
+            let formID = 'update-paid-' + element.id;
             document.getElementById(formID).submit();
         }
 
@@ -357,7 +361,7 @@
             let formID = 'update-second-day' + element.id;
             document.getElementById(formID).submit();
         }
-        
+
         function deleteParticipant(element) {
             let formID = 'delete-form-' + element.id;
             document.getElementById(formID).submit();

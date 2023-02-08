@@ -72,7 +72,7 @@
             </div>
         </div>
 
-        <div class="">
+        <div class="space-y-5">
             <select name="school" id="school"
                 class="w-full p-4 rounded-md text-sm sm:text-base sm:p-4.5
                     @error('school') border-2 border-red-300 @enderror

@@ -10,12 +10,14 @@ Route::view('/login', 'login');
 Route::post('/admin/login', [SessionController::class, 'login'])->name('admin.login');
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('admin/registrations', [RegistrationController::class, 'index'])->name('registrations.index');
-    Route::post('admin/registrations/export', [RegistrationController::class, 'export'])->name('registrations.export');
-    Route::patch('admin/registrations/{registration}', [RegistrationController::class, 'update'])->name('registrations.update');
-    Route::patch('admin/registrations/first/{registration}', [RegistrationController::class, 'updateFirstDay'])->name('registrations.updateFirstDay');
-    Route::patch('admin/registrations/second/{registration}', [RegistrationController::class, 'updateSecondDay'])->name('registrations.updateSecondDay');
+    Route::group(['prefix' => 'admin/registrations', 'as' => 'registrations.'], function () {
+        Route::get('/', [RegistrationController::class, 'index'])->name('index');
+        Route::post('/export', [RegistrationController::class, 'export'])->name('export');
+        Route::patch('/{registration}', [RegistrationController::class, 'update'])->name('update');
+        Route::patch('/first/{registration}', [RegistrationController::class, 'updateFirstDay'])->name('updateFirstDay');
+        Route::patch('/second/{registration}', [RegistrationController::class, 'updateSecondDay'])->name('updateSecondDay');
+        Route::delete('/{registration}/delete', [RegistrationController::class, 'destroy'])->name('destroy');
+    });
 
-    Route::delete('admin/registrations/{registration}/delete', [RegistrationController::class, 'destroy'])->name('registrations.destroy');
     Route::delete('/logout', [SessionController::class, 'logout'])->name('logout');
 });
