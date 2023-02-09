@@ -309,8 +309,12 @@
         function getSchool(element) {
             let selectedSchool = element.options[element.selectedIndex].text;
 
-            if (element.value === '1') {
-                othersContainer.style.display = 'block';
+            if (element.value === '1' || element.value === '2') {
+                if (window.innerWidth < 576) {
+                    othersContainer.style.display = 'block';
+                } else {
+                    othersContainer.style.display = 'flex';
+                }
 
                 course.required = true;
                 year.required = true;
