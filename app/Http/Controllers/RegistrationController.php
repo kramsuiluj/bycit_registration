@@ -160,6 +160,11 @@ class RegistrationController extends Controller
         $registrations = Registration::latest()->filter(request(['school', 'paid', 'type']))->get();
 
         $list = collect($registrations)->map(function ($registration) {
+
+            if ($registration->others !== null) {
+                dd($registration->others);
+            }
+
             $registration['school'] = $registration->school->name;
             return $registration->only(['school', 'lastname', 'firstname', 'middle_initial', 'type', 'tshirt', 'paid', 'firstDay', 'secondDay', 'date_registered']);
         });
