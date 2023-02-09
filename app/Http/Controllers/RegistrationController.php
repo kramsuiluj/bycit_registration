@@ -166,7 +166,7 @@ class RegistrationController extends Controller
             }
 
             $registration['school'] = $registration->school->name;
-            return $registration->only(['school', 'lastname', 'firstname', 'middle_initial', 'type', 'tshirt', 'paid', 'firstDay', 'secondDay', 'date_registered']);
+            return $registration->only(['school', 'lastname', 'firstname', 'middle_initial', 'type', 'tshirt', 'paid', 'firstDay', 'secondDay', 'date_registered'])->;
         });
 
 
