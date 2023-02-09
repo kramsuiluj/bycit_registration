@@ -136,7 +136,6 @@
                 </div>
             </div>
 
-<<<<<<< HEAD
             <div class="w-full">
                 <select name="size" id="size"
                         class="w-full p-4 rounded-md text-sm sm:text-base sm:p-4.5
@@ -150,20 +149,6 @@
                         </option>
                     @endforeach
                 </select>
-=======
-            <select onchange="getSize(this)" name="size" id="size"
-                class="w-full p-4 rounded-md text-sm sm:text-base sm:p-4.5
-    @error('school') border-2 border-red-300 @enderror
-    "
-                form="register" required>
-                <option disabled selected>T-shirt size</option>
-                @foreach ($sizes as $size)
-                    <option value="{{ $size }}">
-                        {{ $size }}
-                    </option>
-                @endforeach
-            </select>
->>>>>>> 57bb458f54e7ca12e031f2f9977a41bb9187bc53
 
                 @error('size')
                 <p class="text-red-300 text-sm drop-shadow-md">{{ $message }}</p>
@@ -323,15 +308,12 @@
             let selectedSchool = element.options[element.selectedIndex].text;
 
             if (element.value === '1' || element.value === '2') {
-<<<<<<< HEAD
                 if (window.innerWidth < 576) {
                     othersContainer.style.display = 'block';
                 } else {
                     othersContainer.style.display = 'flex';
                 }
-=======
                 othersContainer.style.display = 'block';
->>>>>>> 57bb458f54e7ca12e031f2f9977a41bb9187bc53
 
                 course.required = true;
                 year.required = true;
