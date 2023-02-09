@@ -166,17 +166,16 @@
 
                                         @if($registration->paid === 'yes')
                                             <td id="{{ $registration->id }}"
-                                                class="text-sm text-gray-900 py-3 whitespace-nowrap border-r
-                                            bg-green-400 text-white">
+                                                class="text-sm text-gray-900  py-3 whitespace-nowrap border-r cursor-pointer
+                                                bg-green-400 text-white hover:bg-green-600" onclick="updatePaid(this)">
                                                 <span class="">Paid</span>
                                             </td>
                                         @endif
 
                                         @if($registration->paid === 'no')
                                             <td id="{{ $registration->id }}"
-                                                class="text-sm text-gray-900  py-3 whitespace-nowrap border-r
-                                            bg-gray-400
-                                             text-white">
+                                                class="text-sm text-gray-900 font-light whitespace-nowrap
+                                                bg-gray-500 px-2 cursor-pointer text-white hover:bg-gray-600" onclick="updatePaid(this)">
                                                 Unpaid
                                             </td>
                                         @endif
@@ -209,25 +208,6 @@
                                             bg-gray-400 cursor-pointer hover:bg-gray-600
                                              text-white" id="{{ $registration->id }}" onclick="updateSecond(this)">
                                                 Did not attend
-                                            </td>
-                                        @endif
-
-                                        @if($registration->paid())
-                                            <td class="text-sm text-gray-900 font-light whitespace-nowrap
-                                            bg-gray-500 px-2 cursor-pointer text-white hover:bg-gray-600" id="{{ $registration->id }}" onclick="updatePaid(this)">
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                     fill="none" viewBox="0 0 24
-                                                    24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mx-auto">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                                </svg>
-                                            </td>
-                                        @else
-                                            <td class="text-sm text-gray-900 font-light whitespace-nowrap
-                                            bg-green-500 px-2 cursor-pointer text-white hover:bg-green-600" id="{{ $registration->id }}" onclick="updatePaid(this)">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24
-                                                    24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mx-auto">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                                                </svg>
                                             </td>
                                         @endif
 
