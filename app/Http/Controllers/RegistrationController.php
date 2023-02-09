@@ -26,14 +26,14 @@ class RegistrationController extends Controller
             'totalRegistrations' => Registration::latest()->filter(request(['school', 'paid', 'type']))->count(),
             'schools' => School::all(),
             'types' => ['Student', 'Teacher'],
-
         ]);
     }
 
     public function create()
     {
         return view('registrations.create', [
-            'schools' => School::all()
+            'schools' => School::all(),
+            'sizes' => ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL']
         ]);
     }
 

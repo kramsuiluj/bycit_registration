@@ -85,9 +85,6 @@
                     </option>
                 @endforeach
             </select>
-            @php
-                $sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL'];
-            @endphp
 
             <select name="size" id="size"
                 class="w-full p-4 rounded-md text-sm sm:text-base sm:p-4.5
