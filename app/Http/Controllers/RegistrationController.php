@@ -162,13 +162,18 @@ class RegistrationController extends Controller
         $list = collect($registrations)->map(function ($registration) {
 
             if ($registration->others !== null) {
-                dd($registration->others);
+                $registration['course'] = $registration->others->course;
+                $registration['year'] = $registration->others->year;
+                $registration['section'] = $registration->others->section;
+            } else {
+                $registration['course'] = '';
+                $registration['year'] = '';
+                $registration['section'] = '';
             }
 
             $registration['school'] = $registration->school->name;
-            return $registration->only(['school', 'lastname', 'firstname', 'middle_initial', 'type', 'tshirt', 'paid', 'firstDay', 'secondDay', 'date_registered'])->;
+            return $registration->only(['school', 'lastname', 'firstname', 'middle_initial', 'type', 'tshirt', 'paid', 'firstDay', 'secondDay', 'date_registered', 'course', 'year', 'section']);
         });
-
 
         return (new FastExcel($list))
             ->download(Carbon::now()->toDateTimeString() . '-participants.xlsx', function ($list) {
@@ -178,6 +183,9 @@ class RegistrationController extends Controller
                     'First Name' => $list['firstname'],
                     'Middle Initial' => $list['middle_initial'],
                     'Type' => $list['type'],
+                    'Course' => $list['course'],
+                    'Year' => $list['year'],
+                    'Section' => $list['section'],
                     'T-Shirt Size' => $list['tshirt'],
                     'Paid' => $list['paid'],
                     'Attendance (1st Day)' => $list['firstDay'],
