@@ -313,7 +313,6 @@
                 } else {
                     othersContainer.style.display = 'flex';
                 }
-                othersContainer.style.display = 'block';
 
                 course.required = true;
                 year.required = true;
