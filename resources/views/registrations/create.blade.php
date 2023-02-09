@@ -137,7 +137,7 @@
             </div>
 
             <div class="w-full">
-                <select name="size" id="size"
+                <select onchange="getSize(this)" name="size" id="size"
                         class="w-full p-4 rounded-md text-sm sm:text-base sm:p-4.5
     @error('school') border-2 border-red-300 @enderror
     "
