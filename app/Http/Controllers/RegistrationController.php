@@ -53,9 +53,9 @@ class RegistrationController extends Controller
             'school' => ['required', Rule::in($schoolIDs)],
             'type' => ['required', Rule::in($types)],
             'size' => ['required', Rule::in($sizes)],
-            'course' => ['required', Rule::in($courses)],
-            'year' => ['required', Rule::in($years)],
-            'section' => ['required', 'alpha', 'size:1']
+            'course' => [Rule::in($courses)],
+            'year' => [Rule::in($years)],
+            'section' => ['min:0', 'max:1', new EmptyOrAlpha]
         ]);
 
         $registration = Registration::create([
@@ -66,7 +66,7 @@ class RegistrationController extends Controller
             'type' => $attributes['type'],
             'tshirt' => $attributes['size'],
             'date_registered' => Carbon::now(),
-            'nickname' => request('nickname')
+            'nickname' => empty(request('nickname')) ? $attributes['firstname'] : request('nickname')
         ]);
 
         if (request('course') && request('year') && request('section')) {
