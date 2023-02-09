@@ -24,8 +24,8 @@ class DatabaseSeeder extends Seeder
             'Ceguera Technological Colleges',
             'ACLC College of Iriga',
             'Bicol University - Polangui',
-            'St. Bridget School',
-            'Oliveros College Inc.'
+            'Oliveros College Inc.',
+            'Ateneo De Naga University'
         ];
 
         if (School::all()->count() === 0) {

@@ -46,6 +46,37 @@
             transform: translate(-50%, -50%);
         }
     </style>
+
+    <style>
+
+        #others-container {
+
+        }
+
+        #others-container > div {
+            margin-bottom: 1.25rem;
+        }
+
+        #others-container > div:last-child {
+            margin-bottom: 0;
+        }
+
+        @media (min-width: 576px) {
+            #others-container {
+                display: flex;
+            }
+
+            #others-container > div {
+                margin-right: 0.50rem;
+                margin-bottom: 0;
+            }
+
+            #others-container > div:last-child {
+                margin-right: 0;
+            }
+        }
+
+    </style>
 </head>
 <body class="h-screen">
     {{ $slot }}

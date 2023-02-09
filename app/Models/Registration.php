@@ -11,6 +11,10 @@ class Registration extends Model
 
     protected $guarded = [];
 
+    public function others() {
+        $this->hasOne(Other::class);
+    }
+
     public function school()
     {
         return $this->belongsTo(School::class);

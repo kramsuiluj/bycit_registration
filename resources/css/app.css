@@ -3,3 +3,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .others-field {
+        @apply space-y-5 sm:space-y-0 sm:flex sm:space-x-2;
+    }
+}

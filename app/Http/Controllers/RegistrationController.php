@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Middleware\RemoveEmptyGetRequests;
+use App\Models\Other;
 use App\Models\Registration;
 use App\Models\School;
 use App\Rules\EmptyOrAlpha;
@@ -42,6 +43,10 @@ class RegistrationController extends Controller
         $types = ['Student', 'Teacher'];
         $schoolIDs = School::get('id')->pluck('id');
         $sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL'];
+        $courses = ['BSIT', 'BSCS', 'BLIS', 'BSIS'];
+        $years = ['1', '2', '3'];
+
+//        dd(request()->all());
 
         $attributes = request()->validate([
             'lastname' => ['required', 'max:255', 'regex:/^[a-zA-zÑñ\s]+$/'],
@@ -49,8 +54,13 @@ class RegistrationController extends Controller
             'middleinitial' => ['max:2', new EmptyOrAlpha],
             'school' => ['required', Rule::in($schoolIDs)],
             'type' => ['required', Rule::in($types)],
-            'size' => ['required', Rule::in($sizes)]
+            'size' => ['required', Rule::in($sizes)],
+            'course' => ['required', Rule::in($courses)],
+            'year' => ['required', Rule::in($years)],
+            'section' => ['required', 'alpha', 'size:1']
         ]);
+
+        dd($attributes);
 
         Registration::create([
             'school_id' => $attributes['school'],
@@ -61,6 +71,14 @@ class RegistrationController extends Controller
             'tshirt' => $attributes['size'],
             'date_registered' => Carbon::now()
         ]);
+
+        if (request('course') && request('year') && request('section')) {
+            Other::create([
+                'course' => $attributes['course'],
+                'year' => $attributes['year'],
+                'section' => $attributes['section']
+            ]);
+        }
 
         return redirect(route('registrations.create'))->with('success', 'Registration Successful!');
     }
