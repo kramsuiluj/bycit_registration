@@ -136,23 +136,37 @@
                 </div>
             </div>
 
-            <div class="w-full">
-                <select onchange="getSize(this)" name="size" id="size"
-                        class="w-full p-4 rounded-md text-sm sm:text-base sm:p-4.5
+            <div class="space-y-5 sm:flex sm:space-y-0 sm:space-x-2">
+                <div class="w-full">
+                    <select onchange="getSize(this)" name="size" id="size"
+                            class="w-full p-4 rounded-md text-sm sm:text-base sm:p-4.5
     @error('school') border-2 border-red-300 @enderror
     "
-                        form="register" required>
-                    <option disabled selected>T-shirt size</option>
-                    @foreach ($sizes as $size)
-                        <option value="{{ $size }}">
-                            {{ $size }}
-                        </option>
-                    @endforeach
-                </select>
+                            form="register" required>
+                        <option disabled selected>T-shirt size</option>
+                        @foreach ($sizes as $size)
+                            <option value="{{ $size }}">
+                                {{ $size }}
+                            </option>
+                        @endforeach
+                    </select>
 
-                @error('size')
-                <p class="text-red-300 text-sm drop-shadow-md">{{ $message }}</p>
-                @enderror
+                    @error('size')
+                    <p class="text-red-300 text-sm drop-shadow-md">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="w-full">
+                    <input type="text" id="nickname" name="nickname"
+                           class="w-full p-4 rounded-md bg-gray-100 text-sm sm:text-base sm:p-4.5
+                    @error('nickname') border-2 border-red-400 @enderror
+                    "
+                           placeholder="Nickname" form="register" value="{{ old('nickname') }}" required>
+
+                    @error('nickname')
+                    <p class="text-red-300 text-sm drop-shadow-md">{{ $message }}</p>
+                    @enderror
+                </div>
             </div>
         </div>
 

@@ -107,6 +107,9 @@
                                         Full Name
                                     </th>
                                     <th scope="col" class="text-sm font-medium text-gray-900  py-4 border-r">
+                                        Nickname
+                                    </th>
+                                    <th scope="col" class="text-sm font-medium text-gray-900  py-4 border-r">
                                         Type
                                     </th>
                                     <th scope="col" class="text-sm font-medium text-gray-900  py-4 border-r">
@@ -140,6 +143,11 @@
                                         text-gray-900
                                         border-r">
                                             {{ $registration->fullname() }}
+                                        </td>
+                                        <td class="text-left pl-4 py-3 whitespace-nowrap text-sm font-medium
+                                        text-gray-900
+                                        border-r">
+                                            {{ $registration->nickname }}
                                         </td>
                                         @if($registration->isStudent())
                                             <td class="text-sm text-gray-900 py-3 whitespace-nowrap border-r

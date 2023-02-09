@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Other;
 use App\Models\Registration;
 use App\Models\School;
 use App\Models\User;
@@ -43,6 +44,14 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        Registration::factory(1000)->create();
+        $registrations = Registration::factory(1000)->create();
+
+        foreach ($registrations as $registration) {
+            if ($registration->school_id === 1 || $registration->school_id === 2) {
+                Other::factory()->create([
+                    'registration_id' => $registration->id
+                ]);
+            }
+        }
     }
 }

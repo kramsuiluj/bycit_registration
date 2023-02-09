@@ -23,6 +23,7 @@ class RegistrationFactory extends Factory
             'firstname' => $this->faker->firstName,
             'middle_initial' => strtoupper($this->faker->randomLetter),
             'type' => $this->faker->randomElement(['Student', 'Teacher']),
+            'nickname' => $this->faker->firstName,
             'paid' => $this->faker->randomElement(['yes', 'no']),
             'firstDay' => $this->faker->randomElement(['yes', 'no']),
             'secondDay' => $this->faker->randomElement(['yes', 'no']),

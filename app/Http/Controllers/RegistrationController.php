@@ -65,7 +65,8 @@ class RegistrationController extends Controller
             'middle_initial' => $attributes['middleinitial'],
             'type' => $attributes['type'],
             'tshirt' => $attributes['size'],
-            'date_registered' => Carbon::now()
+            'date_registered' => Carbon::now(),
+            'nickname' => request('nickname')
         ]);
 
         if (request('course') && request('year') && request('section')) {
@@ -172,7 +173,7 @@ class RegistrationController extends Controller
             }
 
             $registration['school'] = $registration->school->name;
-            return $registration->only(['school', 'lastname', 'firstname', 'middle_initial', 'type', 'tshirt', 'paid', 'firstDay', 'secondDay', 'date_registered', 'course', 'year', 'section']);
+            return $registration->only(['school', 'lastname', 'firstname', 'middle_initial', 'type', 'tshirt', 'paid', 'firstDay', 'secondDay', 'date_registered', 'course', 'year', 'section', 'nickname']);
         });
 
         return (new FastExcel($list))
@@ -182,6 +183,7 @@ class RegistrationController extends Controller
                     'Last Name' => $list['lastname'],
                     'First Name' => $list['firstname'],
                     'Middle Initial' => $list['middle_initial'],
+                    'Nickname' => $list['nickname'],
                     'Type' => $list['type'],
                     'Course' => $list['course'],
                     'Year' => $list['year'],
