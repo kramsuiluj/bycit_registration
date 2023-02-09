@@ -46,8 +46,6 @@ class RegistrationController extends Controller
         $courses = ['BSIT', 'BSCS', 'BLIS', 'BSIS'];
         $years = ['1', '2', '3'];
 
-//        dd(request()->all());
-
         $attributes = request()->validate([
             'lastname' => ['required', 'max:255', 'regex:/^[a-zA-zÑñ\s]+$/'],
             'firstname' => ['required', 'max:255', 'regex:/^[a-zA-zÑñ\s]+$/'],
@@ -60,9 +58,7 @@ class RegistrationController extends Controller
             'section' => ['required', 'alpha', 'size:1']
         ]);
 
-        dd($attributes);
-
-        Registration::create([
+        $registration = Registration::create([
             'school_id' => $attributes['school'],
             'lastname' => $attributes['lastname'],
             'firstname' => $attributes['firstname'],
@@ -74,6 +70,7 @@ class RegistrationController extends Controller
 
         if (request('course') && request('year') && request('section')) {
             Other::create([
+                'registration_id' => $registration->id,
                 'course' => $attributes['course'],
                 'year' => $attributes['year'],
                 'section' => $attributes['section']
