@@ -23,14 +23,7 @@ class Registration extends Model
 
     public function paid()
     {
-//        if ($this->paid == 'yes') {
-//            return '<span class="text-blue-500">Confirmed</span>';
-//        }
-//
-//        if ($this->paid == 'no') {
-//            return '<span class="text-blue-500">Confirmed</span>';
-//        }
-        return $this->paid == 'yes';
+        return $this->paid === 'yes';
     }
 
     public function isStudent(): bool
