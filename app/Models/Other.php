@@ -9,6 +9,8 @@ class Other extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function registration()
     {
         return $this->belongsTo(Registration::class);

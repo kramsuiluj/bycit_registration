@@ -80,7 +80,7 @@
                 form="register" required>
                 <option disabled selected>School</option>
                 @foreach ($schools as $school)
-                    <option value="{{ $school->id }}">
+                    <option value="{{ $school->id }}" {{ (int)old('school') === $school->id ? 'selected' : '' }}>
                         {{ $school->name }}
                     </option>
                 @endforeach
@@ -116,6 +116,7 @@
                         <option value="1">1st</option>
                         <option value="2">2nd</option>
                         <option value="3">3rd</option>
+                        <option value="4">4th</option>
                     </select>
                     @error('year')
                         <p class="text-red-300 text-sm drop-shadow-md">{{ $message }}</p>
@@ -135,22 +136,26 @@
                 </div>
             </div>
 
+            <div class="w-full">
+                <select name="size" id="size"
+                        class="w-full p-4 rounded-md text-sm sm:text-base sm:p-4.5
             <select onchange="getSize(this)" name="size" id="size"
                 class="w-full p-4 rounded-md text-sm sm:text-base sm:p-4.5
     @error('school') border-2 border-red-300 @enderror
     "
-                form="register" required>
-                <option disabled selected>T-shirt size</option>
-                @foreach ($sizes as $size)
-                    <option value="{{ $size }}">
-                        {{ $size }}
-                    </option>
-                @endforeach
-            </select>
+                        form="register" required>
+                    <option disabled selected>T-shirt size</option>
+                    @foreach ($sizes as $size)
+                        <option value="{{ $size }}">
+                            {{ $size }}
+                        </option>
+                    @endforeach
+                </select>
 
-            @error('size')
+                @error('size')
                 <p class="text-red-300 text-sm drop-shadow-md">{{ $message }}</p>
-            @enderror
+                @enderror
+            </div>
         </div>
 
         <div>
@@ -287,10 +292,24 @@
             }
         };
 
+        window.onload = () => {
+            if (school.value === '1' || school.value === '2') {
+                if (window.innerWidth < 576) {
+                    othersContainer.style.display = 'block';
+                } else {
+                    othersContainer.style.display = 'flex';
+                }
+
+                course.required = true;
+                year.required = true;
+                section.required = true;
+            }
+        }
+
         function getSchool(element) {
             let selectedSchool = element.options[element.selectedIndex].text;
 
-            if (element.value === '1' || element.value === '2') {
+            if (element.value === '1') {
                 othersContainer.style.display = 'block';
 
                 course.required = true;
