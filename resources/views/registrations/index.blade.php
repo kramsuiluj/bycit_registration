@@ -169,7 +169,7 @@
                                             {{ $registration->date_registered }}
                                         </td>
                                         <td class="text-sm text-gray-900 font-light  py-3 whitespace-nowrap border-r">
-                                            {{ $sizes->firstWhere('id', $registration->tshirt)->name  }}
+                                            {{ $registration->size->name  }}
                                         </td>
 
                                         @if($registration->paid === 'yes')

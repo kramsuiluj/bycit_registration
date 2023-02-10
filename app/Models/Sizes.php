@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Sizes extends Model
 {
     use HasFactory;
+
+    public function registration()
+    {
+        return $this->hasMany(Registration::class);
+    }
 }

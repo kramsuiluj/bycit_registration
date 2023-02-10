@@ -175,6 +175,7 @@ class RegistrationController extends Controller
             }
 
             $registration['school'] = $registration->school->name;
+            $registration['tshirt'] = $registration->size->name;
             return $registration->only(['school', 'lastname', 'firstname', 'middle_initial', 'type', 'tshirt', 'paid', 'firstDay', 'secondDay', 'date_registered', 'course', 'year', 'section', 'nickname']);
         });
 

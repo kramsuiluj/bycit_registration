@@ -11,13 +11,19 @@ class Registration extends Model
 
     protected $guarded = [];
 
-    public function others() {
+    public function others()
+    {
         return $this->hasOne(Other::class);
     }
 
     public function school()
     {
         return $this->belongsTo(School::class);
+    }
+
+    public function size()
+    {
+        return $this->belongsTo(Sizes::class, 'tshirt');
     }
 
     public function fullname()
@@ -37,26 +43,38 @@ class Registration extends Model
 
     public function scopeFilter($query, array $filters)
     {
-        $query->when($filters['school'] ?? false, fn($query, $school) =>
-            $query->where(fn($query) =>
+        $query->when(
+            $filters['school'] ?? false,
+            fn ($query, $school) =>
+            $query->where(
+                fn ($query) =>
                 $query->where('school_id', $school)
             )
         );
 
-        $query->when($filters['paid'] ?? false, fn($query, $paid) =>
-            $query->where(fn($query) =>
+        $query->when(
+            $filters['paid'] ?? false,
+            fn ($query, $paid) =>
+            $query->where(
+                fn ($query) =>
                 $query->where('paid', $paid)
             )
         );
 
-        $query->when($filters['type'] ?? false, fn($query, $type) =>
-            $query->where(fn($query) =>
+        $query->when(
+            $filters['type'] ?? false,
+            fn ($query, $type) =>
+            $query->where(
+                fn ($query) =>
                 $query->where('type', $type)
             )
         );
 
-        $query->when($filters['sort'] ?? false, fn($query, $paid) =>
-            $query->where(fn($query) =>
+        $query->when(
+            $filters['sort'] ?? false,
+            fn ($query, $paid) =>
+            $query->where(
+                fn ($query) =>
                 $query->orderBy('type')
             )
         );
