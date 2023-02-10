@@ -53,9 +53,9 @@ class RegistrationController extends Controller
             'school' => ['required', Rule::in($schoolIDs)],
             'type' => ['required', Rule::in($types)],
             'size' => ['required', Rule::in($sizes)],
-            'course' => ['required', Rule::in($courses)],
-            'year' => ['required', Rule::in($years)],
-            'section' => ['required', 'alpha', 'size:1']
+            'course' => [Rule::in($courses)],
+            'year' => [Rule::in($years)],
+            'section' => ['min:0', 'max:1', new EmptyOrAlpha]
         ]);
 
         $registration = Registration::create([
@@ -65,7 +65,8 @@ class RegistrationController extends Controller
             'middle_initial' => $attributes['middleinitial'],
             'type' => $attributes['type'],
             'tshirt' => $attributes['size'],
-            'date_registered' => Carbon::now()
+            'date_registered' => Carbon::now(),
+            'nickname' => empty(request('nickname')) ? $attributes['firstname'] : request('nickname')
         ]);
 
         if (request('course') && request('year') && request('section')) {
@@ -162,13 +163,18 @@ class RegistrationController extends Controller
         $list = collect($registrations)->map(function ($registration) {
 
             if ($registration->others !== null) {
-                dd($registration->others);
+                $registration['course'] = $registration->others->course;
+                $registration['year'] = $registration->others->year;
+                $registration['section'] = $registration->others->section;
+            } else {
+                $registration['course'] = '';
+                $registration['year'] = '';
+                $registration['section'] = '';
             }
 
             $registration['school'] = $registration->school->name;
-            return $registration->only(['school', 'lastname', 'firstname', 'middle_initial', 'type', 'tshirt', 'paid', 'firstDay', 'secondDay', 'date_registered'])->;
+            return $registration->only(['school', 'lastname', 'firstname', 'middle_initial', 'type', 'tshirt', 'paid', 'firstDay', 'secondDay', 'date_registered', 'course', 'year', 'section', 'nickname']);
         });
-
 
         return (new FastExcel($list))
             ->download(Carbon::now()->toDateTimeString() . '-participants.xlsx', function ($list) {
@@ -177,7 +183,11 @@ class RegistrationController extends Controller
                     'Last Name' => $list['lastname'],
                     'First Name' => $list['firstname'],
                     'Middle Initial' => $list['middle_initial'],
+                    'Nickname' => $list['nickname'],
                     'Type' => $list['type'],
+                    'Course' => $list['course'],
+                    'Year' => $list['year'],
+                    'Section' => $list['section'],
                     'T-Shirt Size' => $list['tshirt'],
                     'Paid' => $list['paid'],
                     'Attendance (1st Day)' => $list['firstDay'],

@@ -10,7 +10,7 @@ return new class extends Migration
      * Run the migrations.
      *
      * @return void
-     * 
+     *
      */
     public function up()
     {
@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('firstname');
             $table->string('middle_initial')->nullable();
             $table->enum('type', ['Student', 'Teacher'])->default('Student');
+            $table->string('nickname')->nullable();
             $table->enum('firstDay', ['yes', 'no'])->default('no');
             $table->enum('secondDay', ['yes', 'no'])->default('no');
             $table->enum('paid', ['yes', 'no'])->default('no');

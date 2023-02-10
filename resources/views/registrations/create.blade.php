@@ -95,10 +95,10 @@
                     "
                         form="register">
                         <option value="" disabled selected>Course</option>
-                        <option value="BSIT">BSIT</option>
-                        <option value="BSCS">BSCS</option>
-                        <option value="BSIS">BSIS</option>
-                        <option value="BLIS">BLIS</option>
+                        <option value="BSIT" {{ old('course') === 'BSIT' ? 'selected' : '' }}>BSIT</option>
+                        <option value="BSCS" {{ old('course') === 'BSCS' ? 'selected' : '' }}>BSCS</option>
+                        <option value="BSIS" {{ old('course') === 'BSIS' ? 'selected' : '' }}>BSIS</option>
+                        <option value="BLIS" {{ old('course') === 'BLIS' ? 'selected' : '' }}>BLIS</option>
                     </select>
                     @error('course')
                         <p class="text-red-300 text-sm drop-shadow-md">{{ $message }}</p>
@@ -113,10 +113,10 @@
                     "
                         form="register">
                         <option value="" disabled selected>Year</option>
-                        <option value="1">1st</option>
-                        <option value="2">2nd</option>
-                        <option value="3">3rd</option>
-                        <option value="4">4th</option>
+                        <option value="1" {{ old('year') === '1' ? 'selected' : '' }}>1st</option>
+                        <option value="2" {{ old('year') === '2' ? 'selected' : '' }}>2nd</option>
+                        <option value="3" {{ old('year') === '3' ? 'selected' : '' }}>3rd</option>
+                        <option value="4" {{ old('year') === '4' ? 'selected' : '' }}>4th</option>
                     </select>
                     @error('year')
                         <p class="text-red-300 text-sm drop-shadow-md">{{ $message }}</p>
@@ -128,7 +128,7 @@
                         class="w-full p-4 rounded-md bg-gray-100 text-sm sm:text-base sm:p-4.5
                     @error('section') border-2 border-red-400 @enderror
                     "
-                        placeholder="Section" form="register" value="{{ old('section') }}" required>
+                        placeholder="Section" form="register" value="{{ old('section') }}">
 
                     @error('section')
                         <p class="text-red-300 text-sm drop-shadow-md">{{ $message }}</p>
@@ -136,23 +136,37 @@
                 </div>
             </div>
 
-            <div class="w-full">
-                <select onchange="getSize(this)" name="size" id="size"
-                        class="w-full p-4 rounded-md text-sm sm:text-base sm:p-4.5
+            <div class="space-y-5 sm:flex sm:space-y-0 sm:space-x-2">
+                <div class="w-full">
+                    <select onchange="getSize(this)" name="size" id="size"
+                            class="w-full p-4 rounded-md text-sm sm:text-base sm:p-4.5
     @error('school') border-2 border-red-300 @enderror
     "
-                        form="register" required>
-                    <option disabled selected>T-shirt size</option>
-                    @foreach ($sizes as $size)
-                        <option value="{{ $size }}">
-                            {{ $size }}
-                        </option>
-                    @endforeach
-                </select>
+                            form="register" required>
+                        <option disabled selected>T-shirt size</option>
+                        @foreach ($sizes as $size)
+                            <option value="{{ $size }}">
+                                {{ $size }}
+                            </option>
+                        @endforeach
+                    </select>
 
-                @error('size')
-                <p class="text-red-300 text-sm drop-shadow-md">{{ $message }}</p>
-                @enderror
+                    @error('size')
+                    <p class="text-red-300 text-sm drop-shadow-md">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="w-full">
+                    <input type="text" id="nickname" name="nickname"
+                           class="w-full p-4 rounded-md bg-gray-100 text-sm sm:text-base sm:p-4.5
+                    @error('nickname') border-2 border-red-400 @enderror
+                    "
+                           placeholder="Nickname" form="register" value="{{ old('nickname') }}">
+
+                    @error('nickname')
+                    <p class="text-red-300 text-sm drop-shadow-md">{{ $message }}</p>
+                    @enderror
+                </div>
             </div>
         </div>
 
@@ -207,6 +221,7 @@
             <div id="participant-details" class="text-sm sm:text-base">
                 <p id="empty-details" class="text-slate-500 text-sm mb-2"></p>
                 <p id="participant-name"></p>
+                <p id="participant-nickname"></p>
                 <p id="participant-type"></p>
                 <p id="participant-school"></p>
                 <p id="participant-size"></p>
@@ -252,6 +267,7 @@
         const participantSchool = document.getElementById('participant-school');
         const participantType = document.getElementById('participant-type');
         const participantSize = document.getElementById('participant-size');
+        const participantNickname = document.getElementById('participant-nickname');
 
         const participantCourse = document.getElementById('participant-course');
         const participantYear = document.getElementById('participant-year');
@@ -263,6 +279,7 @@
         const middleInitial = document.getElementById('middleinitial') ?? '';
         const lastname = document.getElementById('lastname') ?? '';
         const school = document.getElementById('school') ?? '';
+        const nickname = document.getElementById('nickname') ?? '';
 
         const othersContainer = document.getElementById('others-container');
         const course = document.getElementById('course');
@@ -297,15 +314,13 @@
                 } else {
                     othersContainer.style.display = 'flex';
                 }
-
-                course.required = true;
-                year.required = true;
-                section.required = true;
             }
         }
 
         function getSchool(element) {
-            let selectedSchool = element.options[element.selectedIndex].text;
+            // let selectedSchool = element.options[element.selectedIndex].text;
+
+            // console.log(typeof element.value);
 
             if (element.value === '1' || element.value === '2') {
                 if (window.innerWidth < 576) {
@@ -320,11 +335,17 @@
             } else {
                 othersContainer.style.display = 'none';
 
+                console.log(course.required);
+
                 course.required = false;
                 year.required = false;
                 section.required = false;
             }
         }
+
+        confirmBtn.addEventListener('click', () => {
+            console.log(course.required);
+        })
 
         registerBtn.addEventListener('click', () => {
             modalContainer.style.display = 'block';
@@ -348,6 +369,8 @@
             participantName.append(
                 "Full Name: " + (fullName === ' ' ? 'Empty' : fullName)
             );
+            participantNickname.append('Nickname: ' + (nickname.value === '' ? 'Empty' :
+                nickname.value));
             schoolName = (school.value === 'School' ? '' : school.options[school.selectedIndex].text);
             participantType.append("Type: " + type)
             participantSchool.append("School: " + (schoolName == '' ? 'Empty' : schoolName));
@@ -382,6 +405,7 @@
             participantSize.innerHTML = '';
             participantName.innerHTML = '';
             participantSchool.innerHTML = '';
+            participantNickname.innerHTML = '';
             participantCourse.innerHTML = '';
             participantYear.innerHTML = '';
             participantSection.innerHTML = '';
