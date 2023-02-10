@@ -27,7 +27,7 @@ class RegistrationFactory extends Factory
             'paid' => $this->faker->randomElement(['yes', 'no']),
             'firstDay' => $this->faker->randomElement(['yes', 'no']),
             'secondDay' => $this->faker->randomElement(['yes', 'no']),
-            'tshirt' => $this->faker->randomElement(['XS','S','M','L','XL','2XL','3XL','4XL']),
+            'tshirt' => $this->faker->numberBetween(1,8),
             'date_registered' => Carbon::now()
         ];
     }

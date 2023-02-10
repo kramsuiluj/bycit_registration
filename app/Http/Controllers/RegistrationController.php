@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Middleware\RemoveEmptyGetRequests;
+use Carbon\Carbon;
 use App\Models\Other;
-use App\Models\Registration;
+use App\Models\Sizes;
 use App\Models\School;
 use App\Rules\EmptyOrAlpha;
-use Carbon\Carbon;
+use App\Models\Registration;
 use Illuminate\Validation\Rule;
 use Rap2hpoutre\FastExcel\FastExcel;
+use App\Http\Middleware\RemoveEmptyGetRequests;
 
 class RegistrationController extends Controller
 {
@@ -27,6 +28,7 @@ class RegistrationController extends Controller
             'totalRegistrations' => Registration::latest()->filter(request(['school', 'paid', 'type']))->count(),
             'schools' => School::all(),
             'types' => ['Student', 'Teacher'],
+            'sizes' => Sizes::all(),
         ]);
     }
 
@@ -34,7 +36,7 @@ class RegistrationController extends Controller
     {
         return view('registrations.create', [
             'schools' => School::all(),
-            'sizes' => ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL']
+            'sizes' => Sizes::all()
         ]);
     }
 
@@ -42,7 +44,7 @@ class RegistrationController extends Controller
     {
         $types = ['Student', 'Teacher'];
         $schoolIDs = School::get('id')->pluck('id');
-        $sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL'];
+        $sizes = Sizes::get('id')->pluck('id');
         $courses = ['BSIT', 'BSCS', 'BLIS', 'BSIS'];
         $years = ['1', '2', '3'];
 

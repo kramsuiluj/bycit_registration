@@ -145,8 +145,8 @@
                             form="register" required>
                         <option disabled selected>T-shirt size</option>
                         @foreach ($sizes as $size)
-                            <option value="{{ $size }}">
-                                {{ $size }}
+                            <option value="{{ $size->id }}">
+                                {{ $size->name }}
                             </option>
                         @endforeach
                     </select>

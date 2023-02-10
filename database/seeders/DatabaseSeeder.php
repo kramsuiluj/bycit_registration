@@ -6,6 +6,7 @@ namespace Database\Seeders;
 use App\Models\Other;
 use App\Models\Registration;
 use App\Models\School;
+use App\Models\Sizes;
 use App\Models\User;
 use Database\Factories\RegistrationFactory;
 use Illuminate\Database\Seeder;
@@ -29,10 +30,20 @@ class DatabaseSeeder extends Seeder
             'Ateneo De Naga University'
         ];
 
+        $sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL'];
+
         if (School::all()->count() === 0) {
             foreach ($schools as $school) {
                 School::create([
                     'name' => $school
+                ]);
+            }
+        }
+
+        if(Sizes::all()->count() === 0) {
+            foreach ($sizes as $size){
+                Sizes::create([
+                    'name' => $size
                 ]);
             }
         }
