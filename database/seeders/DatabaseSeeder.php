@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
             'Ateneo De Naga University'
         ];
 
-        $sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL'];
+        $sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL'];
 
         if (School::all()->count() === 0) {
             foreach ($schools as $school) {
