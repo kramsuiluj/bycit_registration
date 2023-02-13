@@ -8,6 +8,7 @@ use App\Models\Sizes;
 use App\Models\School;
 use App\Rules\EmptyOrAlpha;
 use App\Models\Registration;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Rule;
 use Rap2hpoutre\FastExcel\FastExcel;
 use App\Http\Middleware\RemoveEmptyGetRequests;
@@ -30,6 +31,18 @@ class RegistrationController extends Controller
             'types' => ['Student', 'Teacher'],
             'sizes' => Sizes::all(),
         ]);
+    }
+
+    public function indexAttendance()
+    {
+        return view('registrations.attendance');
+    }
+
+    public function getAttendees()
+    {
+        $attendees = Registration::latest('updated_at')->where('firstDay', 'yes')->take(10)->get();
+
+        return response()->json(['attendees' => $attendees]);
     }
 
     public function create()
@@ -134,22 +147,22 @@ class RegistrationController extends Controller
         return redirect()->back()->with('success', 'You have successfully updated the attendance status.');
     }
 
-//    public function updatePayment(Registration $registration)
-//    {
-//        if ($registration->paid === 'yes') {
-//            $registration->update([
-//                'paid' => 'no'
-//            ]);
-//        } else {
-//            if ($registration->paid === 'no') {
-//                $registration->update([
-//                    'paid' => 'yes'
-//                ]);
-//            }
-//        }
-//
-//        return redirect()->back()->with('success', 'You have successfully updated the confirmation status.');
-//    }
+    public function updateAttendance(Registration $registration): JsonResponse
+    {
+        if ($registration->firstDay === 'no') {
+            $registration->update([
+                'firstDay' => 'yes'
+            ]);
+
+            return response()->json(['message' => 'Attendance Checked!', 'success' => '1', 'attendees' => Registration::latest('updated_at')->where('firstDay', 'yes')->take(10)->get()]);
+        }
+
+        if ($registration->firstDay === 'yes') {
+            return response()->json(['message' => 'Participant already in attendance list.', 'success' => '0', 'attendees' => Registration::latest('updated_at')->where('firstDay', 'yes')->take(10)->get()]);
+        }
+
+        return response()->json(['message' => 'An error was encountered while checking the attendance.', 'attendees' => Registration::latest('updated_at')->where('firstDay', 'yes')->take(10)->get()]);
+    }
 
     public function destroy(Registration $registration)
     {

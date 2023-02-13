@@ -5,6 +5,7 @@
         "build": "vite build"
     },
     "devDependencies": {
+        "@vitejs/plugin-vue": "^4.0.0",
         "autoprefixer": "^10.4.13",
         "axios": "^1.1.2",
         "flowbite": "^1.6.3",
@@ -12,9 +13,13 @@
         "lodash": "^4.17.19",
         "postcss": "^8.4.21",
         "tailwindcss": "^3.2.4",
-        "vite": "^4.0.0"
+        "vite": "^4.0.0",
+        "vue-loader": "^17.0.1"
     },
     "dependencies": {
-        "alpinejs": "^3.11.1"
+        "alpinejs": "^3.11.1",
+        "qr-scanner": "^1.4.2",
+        "redaxios": "^0.5.1",
+        "vue": "^3.2.36"
     }
 }

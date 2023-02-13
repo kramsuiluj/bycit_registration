@@ -12,6 +12,7 @@ Route::post('/admin/login', [SessionController::class, 'login'])->name('admin.lo
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'admin/registrations', 'as' => 'registrations.'], function () {
         Route::get('/', [RegistrationController::class, 'index'])->name('index');
+        Route::get('/attendance', [RegistrationController::class, 'indexAttendance'])->name('registrations.indexAttendance');
         Route::post('/export', [RegistrationController::class, 'export'])->name('export');
         Route::patch('/{registration}', [RegistrationController::class, 'update'])->name('update');
         Route::patch('/first/{registration}', [RegistrationController::class, 'updateFirstDay'])->name('updateFirstDay');
