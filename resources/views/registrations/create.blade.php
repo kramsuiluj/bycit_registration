@@ -8,11 +8,14 @@
         </div>
     </header>
 
-    <h1
+    {{-- <h1
         class="font-montserrat text-2xl font-bold text-white mb-12 sm:mb-20 flex justify-start w-10/12 mx-auto sm:ml-20
     sm:text-3xl md:text-4xl drop-shadow-2xl">
         BYCIT Registration
-    </h1>
+    </h1> --}}
+    <div class="w-full">
+        <img src="{{ asset('images/whiteLogo.png') }}" alt="" class="w-1/2 mx-auto sm:w-1/4 sm:mx-0 sm:ml-24 md:w-1/5" id="whiteLogo">
+    </div>
 
     @if (session()->has('success'))
         <div class="w-10/12 mx-auto font-montserrat space-y-5 mb-5 sm:w-3/5 sm:ml-20 shadow-md rounded-sm">
@@ -80,7 +83,7 @@
                 form="register" required>
                 <option disabled selected>School</option>
                 @foreach ($schools as $school)
-                    <option value="{{ $school->id }}" {{ (int)old('school') === $school->id ? 'selected' : '' }}>
+                    <option value="{{ $school->id }}" {{ (int) old('school') === $school->id ? 'selected' : '' }}>
                         {{ $school->name }}
                     </option>
                 @endforeach
@@ -139,10 +142,10 @@
             <div class="space-y-5 sm:flex sm:space-y-0 sm:space-x-2">
                 <div class="w-full">
                     <select onchange="getSize(this)" name="size" id="size"
-                            class="w-full p-4 rounded-md text-sm sm:text-base sm:p-4.5
+                        class="w-full p-4 rounded-md text-sm sm:text-base sm:p-4.5
     @error('school') border-2 border-red-300 @enderror
     "
-                            form="register" required>
+                        form="register" required>
                         <option disabled selected>T-shirt size</option>
                         @foreach ($sizes as $size)
                             <option value="{{ $size->id }}">
@@ -152,19 +155,19 @@
                     </select>
 
                     @error('size')
-                    <p class="text-red-300 text-sm drop-shadow-md">{{ $message }}</p>
+                        <p class="text-red-300 text-sm drop-shadow-md">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <div class="w-full">
                     <input type="text" id="nickname" name="nickname"
-                           class="w-full p-4 rounded-md bg-gray-100 text-sm sm:text-base sm:p-4.5
+                        class="w-full p-4 rounded-md bg-gray-100 text-sm sm:text-base sm:p-4.5
                     @error('nickname') border-2 border-red-400 @enderror
                     "
-                           placeholder="Nickname" form="register" value="{{ old('nickname') }}">
+                        placeholder="Nickname" form="register" value="{{ old('nickname') }}">
 
                     @error('nickname')
-                    <p class="text-red-300 text-sm drop-shadow-md">{{ $message }}</p>
+                        <p class="text-red-300 text-sm drop-shadow-md">{{ $message }}</p>
                     @enderror
                 </div>
             </div>
