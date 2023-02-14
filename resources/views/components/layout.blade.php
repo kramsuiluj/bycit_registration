@@ -11,7 +11,7 @@
     <title>BYCIT Registration</title>
     <style>
         body {
-            background-image: url("{{ asset('images/background.png') }}");
+            background-image: url("{{ asset('images/bg2.jpg') }}");
             background-repeat: no-repeat;
             background-size: cover;
             background-attachment: fixed;
@@ -74,6 +74,11 @@
             #others-container>div:last-child {
                 margin-right: 0;
             }
+
+            body {
+                background-image: url("{{ asset('images/bg3.jpg') }}");
+            }
+
         }
 
         @media (min-width: 1025px) {
