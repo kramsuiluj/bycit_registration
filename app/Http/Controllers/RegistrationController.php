@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\RegistrationsExport;
 use Carbon\Carbon;
 use App\Models\Other;
 use App\Models\Sizes;
@@ -10,6 +11,7 @@ use App\Rules\EmptyOrAlpha;
 use App\Models\Registration;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 use Rap2hpoutre\FastExcel\FastExcel;
 use App\Http\Middleware\RemoveEmptyGetRequests;
 
@@ -173,6 +175,7 @@ class RegistrationController extends Controller
 
     public function export()
     {
+//        return Excel::download(new RegistrationsExport(), 'registrations_list.xlsx');
         $registrations = Registration::latest()->filter(request(['school', 'paid', 'type']))->get();
 
         $list = collect($registrations)->map(function ($registration) {

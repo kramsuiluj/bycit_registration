@@ -66,7 +66,9 @@
             getAttendance() {
                 axios.get('/api/registrations/attendees').then(result => {
                     this.attendees = result.data.attendees;
-                })
+                }).catch(error => {
+                    console.log(error);
+                });
             }
         }
     }

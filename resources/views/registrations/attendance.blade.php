@@ -34,7 +34,7 @@
         const video = document.getElementById('qr-video');
 
         function processResult(result) {
-            console.log(result.data);
+            // console.log(result.data);
             let url = result.data;
             vm.setAttendance(url)
         }

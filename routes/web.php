@@ -22,3 +22,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::delete('/logout', [SessionController::class, 'logout'])->name('logout');
 });
+
+Route::get('/qrcode', function () {
+    return view('qr');
+});
