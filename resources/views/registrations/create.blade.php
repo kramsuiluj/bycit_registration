@@ -297,7 +297,7 @@
         }
 
         function getSize(element) {
-            size = element.value;
+            size = element.options[element.selectedIndex].text;
         }
 
         window.onresize = () => {
