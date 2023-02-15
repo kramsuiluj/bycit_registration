@@ -352,6 +352,7 @@
 
         registerBtn.addEventListener('click', () => {
             modalContainer.style.display = 'block';
+            modalContainer.style.position = 'fixed';
             modalContent.style.display = 'block';
 
             if (firstname.value === '' && lastname.value === '' && middleInitial.value === '' && school.value ===
