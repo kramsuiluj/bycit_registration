@@ -66,7 +66,7 @@ class RegistrationController extends Controller
         $attributes = request()->validate([
             'lastname' => ['required', 'max:255', 'regex:/^[a-zA-zÑñ\s]+$/'],
             'firstname' => ['required', 'max:255', 'regex:/^[a-zA-zÑñ\s]+$/'],
-            'middleinitial' => ['max:2', new EmptyOrAlpha],
+            'middleinitial' => ['max:3', new EmptyOrAlpha],
             'school' => ['required', Rule::in($schoolIDs)],
             'type' => ['required', Rule::in($types)],
             'size' => ['required', Rule::in($sizes)],
@@ -77,13 +77,13 @@ class RegistrationController extends Controller
 
         $registration = Registration::create([
             'school_id' => $attributes['school'],
-            'lastname' => $attributes['lastname'],
-            'firstname' => $attributes['firstname'],
-            'middle_initial' => $attributes['middleinitial'],
+            'lastname' => ucwords($attributes['lastname']),
+            'firstname' => ucwords($attributes['firstname']),
+            'middle_initial' => ucwords($attributes['middleinitial']),
             'type' => $attributes['type'],
             'tshirt' => $attributes['size'],
             'date_registered' => Carbon::now(),
-            'nickname' => empty(request('nickname')) ? $attributes['firstname'] : request('nickname')
+            'nickname' => empty(request('nickname')) ? ucwords($attributes['firstname']) : ucwords($attributes['nickname'])
         ]);
 
         if (request('course') && request('year') && request('section')) {

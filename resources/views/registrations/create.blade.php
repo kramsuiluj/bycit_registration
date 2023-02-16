@@ -148,16 +148,18 @@
                         form="register" required>
                         <option disabled selected>T-shirt size</option>
                         @foreach ($sizes as $size)
-                            <option value="{{ $size->id }}">
+                            <option value="{{ $size->id }}" {{old('size') == $size->id ? "selected" : ''}}>
                                 {{ $size->name }}
                             </option>
                         @endforeach
                     </select>
 
+
                     @error('size')
                         <p class="text-red-300 text-sm drop-shadow-md">{{ $message }}</p>
                     @enderror
                 </div>
+
 
                 <div class="w-full">
                     <input type="text" id="nickname" name="nickname"
@@ -257,6 +259,8 @@
         @csrf
     </form>
 
+
+
     <script>
         const registerBtn = document.getElementById('register-btn');
         const confirmBtn = document.getElementById('confirm-btn');
@@ -290,7 +294,7 @@
         const section = document.getElementById('section');
 
         let type = 'Student';
-        let size = '';
+        let size = "{{old('size') ? $sizes->where('id', '=', old('size'))->first()->name : ''}}";
 
         function getType(element) {
             type = element.value;
