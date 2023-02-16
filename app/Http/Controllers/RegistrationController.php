@@ -83,7 +83,7 @@ class RegistrationController extends Controller
             'type' => $attributes['type'],
             'tshirt' => $attributes['size'],
             'date_registered' => Carbon::now(),
-            'nickname' => empty(request('nickname')) ? ucwords($attributes['firstname']) : ucwords($attributes['nickname'])
+            'nickname' => empty(request('nickname')) ? ucwords($attributes['firstname']) : ucwords(request()->nickname)
         ]);
 
         if (request('course') && request('year') && request('section')) {
