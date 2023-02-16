@@ -64,8 +64,8 @@ class RegistrationController extends Controller
         $years = ['1', '2', '3'];
 
         $attributes = request()->validate([
-            'lastname' => ['required', 'max:255', 'regex:/^[a-zA-zÑñ\s]+$/'],
-            'firstname' => ['required', 'max:255', 'regex:/^[a-zA-zÑñ\s]+$/'],
+            'lastname' => ['required', 'max:255', 'regex:/^[a-zA-zÑñ\s]+$/', 'min:2'],
+            'firstname' => ['required', 'max:255', 'regex:/^[a-zA-zÑñ\s]+$/', 'min:2'],
             'middleinitial' => ['max:3', new EmptyOrAlpha],
             'school' => ['required', Rule::in($schoolIDs)],
             'type' => ['required', Rule::in($types)],

@@ -304,6 +304,10 @@
             size = element.options[element.selectedIndex].text;
         }
 
+        String.prototype.toTitleCase = function(){
+            return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        }
+
         window.onresize = () => {
             if (othersContainer.style.display !== 'none') {
                 if (window.innerWidth < 576) {
@@ -375,10 +379,10 @@
                 middleInitial.value + (middleInitial.value !== '' ? '.' : '');
 
             participantName.append(
-                "Full Name: " + (fullName === ' ' ? 'Empty' : fullName)
+                "Full Name: " + (fullName === ' ' ? 'Empty' : fullName.toTitleCase())
             );
             participantNickname.append('Nickname: ' + (nickname.value === '' ? 'Empty' :
-                nickname.value));
+                nickname.value.toTitleCase()));
             schoolName = (school.value === 'School' ? '' : school.options[school.selectedIndex].text);
             participantType.append("Type: " + type)
             participantSchool.append("School: " + (schoolName == '' ? 'Empty' : schoolName));

@@ -42,6 +42,10 @@
             border: 2px solid white;
         }
 
+        input[type="text"]{
+            text-transform: capitalize;
+        }
+
         .center {
             position: absolute;
             left: 50%;
