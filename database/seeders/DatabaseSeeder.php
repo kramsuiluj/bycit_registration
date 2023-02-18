@@ -56,7 +56,7 @@ class DatabaseSeeder extends Seeder
         }
 
 //        $registrations = Registration::factory(1000)->create();
-
+//
 //        foreach ($registrations as $registration) {
 //            if ($registration->school_id === 1 || $registration->school_id === 2) {
 //                Other::factory()->create([

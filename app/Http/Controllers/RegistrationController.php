@@ -215,4 +215,10 @@ class RegistrationController extends Controller
                 ];
             });
     }
+
+    protected function generateQrCode($participant) {
+        $filename = $participant->id . '.png';
+
+
+    }
 }

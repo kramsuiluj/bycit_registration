@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('others', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('registration_id')->constrained('registrations', 'id');
+            $table->foreignId('registration_id')->constrained('registrations', 'id')->cascadeOnDelete();
             $table->string('course');
             $table->string('year');
             $table->string('section');
