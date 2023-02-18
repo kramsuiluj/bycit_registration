@@ -42,7 +42,7 @@
         const scanner = new QrScanner(video, result => processResult(result), {
             highlightScanRegion: true,
             highlightCodeOutline: true,
-            maxScansPerSecond: 1
+            maxScansPerSecond: 1,
         });
 
         scanner.start();

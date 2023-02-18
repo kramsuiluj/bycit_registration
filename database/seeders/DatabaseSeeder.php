@@ -51,18 +51,18 @@ class DatabaseSeeder extends Seeder
         if (!User::find(1)) {
             User::create([
                 'username' => 'admin',
-                'password' => bcrypt('!password')
+                'password' => bcrypt('itboys2022')
             ]);
         }
 
-        $registrations = Registration::factory(1000)->create();
+//        $registrations = Registration::factory(1000)->create();
 
-        foreach ($registrations as $registration) {
-            if ($registration->school_id === 1 || $registration->school_id === 2) {
-                Other::factory()->create([
-                    'registration_id' => $registration->id
-                ]);
-            }
-        }
+//        foreach ($registrations as $registration) {
+//            if ($registration->school_id === 1 || $registration->school_id === 2) {
+//                Other::factory()->create([
+//                    'registration_id' => $registration->id
+//                ]);
+//            }
+//        }
     }
 }
