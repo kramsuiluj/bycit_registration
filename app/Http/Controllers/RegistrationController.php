@@ -61,7 +61,7 @@ class RegistrationController extends Controller
         $schoolIDs = School::get('id')->pluck('id');
         $sizes = Sizes::get('id')->pluck('id');
         $courses = ['BSIT', 'BSCS', 'BLIS', 'BSIS'];
-        $years = ['1', '2', '3'];
+        $years = ['1', '2', '3', '4'];
 
         $attributes = request()->validate([
             'lastname' => ['required', 'max:255', 'regex:/^[a-zA-zÑñ\s]+$/', 'min:2'],
