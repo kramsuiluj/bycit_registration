@@ -27,6 +27,7 @@ return new class extends Migration
             $table->enum('paid', ['yes', 'no'])->default('no');
             $table->foreignID('tshirt')->constrained('sizes', 'id')->nullable(false);
             $table->timestamp('date_registered');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
