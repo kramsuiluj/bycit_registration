@@ -24,11 +24,11 @@ class RegistrationController extends Controller
 
     public function index()
     {
-        $registrations = Registration::latest()->filter(request(['school', 'paid', 'type']))->paginate(50)->withQueryString();
+        $registrations = Registration::latest()->filter(request(['school', 'paid', 'type', 'search']))->paginate(50)->withQueryString();
 
         return view('registrations.index', [
             'registrations' => $registrations,
-            'totalRegistrations' => Registration::latest()->filter(request(['school', 'paid', 'type']))->count(),
+            'totalRegistrations' => Registration::latest()->filter(request(['school', 'paid', 'type', 'search']))->count(),
             'schools' => School::all(),
             'types' => ['Student', 'Teacher'],
             'sizes' => Sizes::all(),

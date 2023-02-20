@@ -27,6 +27,11 @@
         <div class="flex items-end space-x-1">
             <form id="filter-form" action="" class="flex items-end space-x-1">
                 <div class="flex flex-col space-y-1">
+                    <label class="text-white drop-shadow-md text-sm" for="search">Search</label>
+                    <input id="search" type="search" placeholder="Search" name="search">
+                </div>
+
+                <div class="flex flex-col space-y-1">
                     <label class="text-white drop-shadow-md text-sm" for="school">College</label>
                     <select name="school" id="school">
                         <option value="">All</option>

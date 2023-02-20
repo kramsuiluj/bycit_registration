@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
 
 class Registration extends Model
 {
@@ -77,6 +78,14 @@ class Registration extends Model
             $query->where(
                 fn ($query) =>
                 $query->orderBy('type')
+            )
+        );
+
+        $query->when($filters['search'] ?? false, fn ($query, $search) =>
+            $query->where(fn ($query) =>
+                $query->where('lastname', 'like', '%' . $search . '%')
+                    ->orWhere('firstname', 'like', '%' . $search . '%')
+                    ->orWhere('nickname', 'like', '%' . $search . '%')
             )
         );
     }
