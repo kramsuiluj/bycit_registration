@@ -64,12 +64,36 @@ class RegistrationController extends Controller
         $years = ['1', '2', '3', '4'];
 
         $attributes = request()->validate([
-            'lastname' => ['required', 'max:255', 'regex:/^[a-zA-zÑñ\s]+$/', 'min:2'],
-            'firstname' => ['required', 'max:255', 'regex:/^[a-zA-zÑñ\s]+$/', 'min:2'],
-            'middleinitial' => ['max:3', new EmptyOrAlpha],
+            'lastname' => ['required', 'max:255', 'regex:/^[a-zA-zÑñ\s]+$/', 'min:2',
+                Rule::unique('registrations')
+                    ->where('lastname', request('lastname'))
+                    ->where('firstname', request('firstname'))
+                    ->where('middle_initial', request('middle_initial'))
+                    ->where('tshirt', request('tshirt'))
+            ],
+            'firstname' => ['required', 'max:255', 'regex:/^[a-zA-zÑñ\s]+$/', 'min:2',
+                Rule::unique('registrations')
+                    ->where('lastname', request('lastname'))
+                    ->where('firstname', request('firstname'))
+                    ->where('middle_initial', request('middle_initial'))
+                    ->where('tshirt', request('tshirt'))
+            ],
+            'middle_initial' => ['max:3', new EmptyOrAlpha,
+                Rule::unique('registrations')
+                    ->where('lastname', request('lastname'))
+                    ->where('firstname', request('firstname'))
+                    ->where('middle_initial', request('middle_initial'))
+                    ->where('tshirt', request('tshirt'))
+            ],
             'school' => ['required', Rule::in($schoolIDs)],
             'type' => ['required', Rule::in($types)],
-            'size' => ['required', Rule::in($sizes)],
+            'tshirt' => ['required', Rule::in($sizes),
+                Rule::unique('registrations')
+                    ->where('lastname', request('lastname'))
+                    ->where('firstname', request('firstname'))
+                    ->where('middle_initial', request('middle_initial'))
+                    ->where('tshirt', request('tshirt'))
+            ],
             'course' => [Rule::in($courses)],
             'year' => [Rule::in($years)],
             'section' => ['min:0', 'max:1', new EmptyOrAlpha]
@@ -79,9 +103,9 @@ class RegistrationController extends Controller
             'school_id' => $attributes['school'],
             'lastname' => ucwords($attributes['lastname']),
             'firstname' => ucwords($attributes['firstname']),
-            'middle_initial' => ucwords($attributes['middleinitial']),
+            'middle_initial' => ucwords($attributes['middle_initial']),
             'type' => $attributes['type'],
-            'tshirt' => $attributes['size'],
+            'tshirt' => $attributes['tshirt'],
             'date_registered' => Carbon::now(),
             'nickname' => empty(request('nickname')) ? ucwords($attributes['firstname']) : ucwords(request()->nickname)
         ]);
@@ -95,7 +119,7 @@ class RegistrationController extends Controller
             ]);
         }
 
-        return redirect(route('registrations.create'))->with('success', 'Registration Successful!');
+        return redirect(route('registrations.create'))->with('success', 'Registration Successful!')->withErrors($attributes, 'registration');
     }
 
     public function update(Registration $registration)

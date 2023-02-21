@@ -36,6 +36,17 @@
         </div>
     @endif
 
+    @if($errors->has('firstname') && $errors->has('lastname') && $errors->has('middle_initial') && $errors->has
+    ('tshirt'))
+        @if (str_contains($errors->default->first('tshirt'), 'taken'))
+            <div class="w-10/12 mx-auto py-2">
+                <p class="text-red-300">You are already registered. {{ old('lastname') . ', ' . old('firstname') . ' ' . old
+        ('middle_initial')
+        }}</p>
+            </div>
+        @endif
+    @endif
+
     <section class="w-10/12 mx-auto font-montserrat space-y-5 mb-24 sm:w-3/5 sm:ml-20">
         <div class="space-y-5 sm:space-y-0 sm:flex sm:space-x-2">
             <div class="w-full">
@@ -63,13 +74,13 @@
             </div>
 
             <div class="w-full">
-                <input type="text" id="middleinitial" name="middleinitial"
+                <input type="text" id="middleinitial" name="middle_initial"
                     class="w-full p-4 rounded-md bg-gray-100 text-sm sm:text-base sm:p-4.5
-                    @error('middleinitial') border-2 border-red-300 @enderror
+                    @error('middle_initial') border-2 border-red-300 @enderror
                     "
-                    placeholder="Middle Initial" value="{{ old('middleinitial') }}" form="register">
+                    placeholder="Middle Initial" value="{{ old('middle_initial') }}" form="register">
 
-                @error('middleinitial')
+                @error('middle_initial')
                     <p class="text-red-300 text-sm drop-shadow-md">{{ $message }}</p>
                 @enderror
             </div>
@@ -141,21 +152,21 @@
 
             <div class="space-y-5 sm:flex sm:space-y-0 sm:space-x-2">
                 <div class="w-full">
-                    <select onchange="getSize(this)" name="size" id="size"
+                    <select onchange="getSize(this)" name="tshirt" id="size"
                         class="w-full p-4 rounded-md text-sm sm:text-base sm:p-4.5
-    @error('school') border-2 border-red-300 @enderror
+    @error('tshirt') border-2 border-red-300 @enderror
     "
                         form="register" required>
                         <option disabled selected>T-shirt size</option>
                         @foreach ($sizes as $size)
-                            <option value="{{ $size->id }}" {{old('size') == $size->id ? "selected" : ''}}>
+                            <option value="{{ $size->id }}" {{old('tshirt') == $size->id ? "selected" : ''}}>
                                 {{ $size->name }}
                             </option>
                         @endforeach
                     </select>
 
 
-                    @error('size')
+                    @error('tshirt')
                         <p class="text-red-300 text-sm drop-shadow-md">{{ $message }}</p>
                     @enderror
                 </div>
@@ -294,15 +305,17 @@
         const section = document.getElementById('section');
 
         let type = 'Student';
-        let size = "{{old('size') ? $sizes->where('id', '=', old('size'))->first()->name : ''}}";
+        let size = "{{old('tshirt') ? $sizes->where('id', '=', old('tshirt'))->first()->name : ''}}";
 
         function getType(element) {
             type = element.value;
         }
 
         function getSize(element) {
-            size = element.options[element.selectedIndex].text;
+            return size = element.options[element.selectedIndex].text;
         }
+
+        // console.log(document.getElementById('size').options[document.getElementById('size').selectedIndex].text);
 
         String.prototype.toTitleCase = function(){
             return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
@@ -319,6 +332,12 @@
         };
 
         window.onload = () => {
+            // function getSize(element) {
+            //     return size = element.options[element.selectedIndex].text;
+            // }
+
+            // console.log(getSize(document.getElementById('size')));
+
             if (school.value === '1' || school.value === '2') {
                 if (window.innerWidth < 576) {
                     othersContainer.style.display = 'block';
@@ -386,7 +405,8 @@
             schoolName = (school.value === 'School' ? '' : school.options[school.selectedIndex].text);
             participantType.append("Type: " + type)
             participantSchool.append("School: " + (schoolName == '' ? 'Empty' : schoolName));
-            participantSize.append("Size: " + (size === '' ? 'Empty' : size));
+            participantSize.append("Size: " + (size === '' ? 'Empty' : getSize(document.getElementById('size')) ??
+                size));
 
             if (course.required == true && year.required == true && section.required == true) {
 

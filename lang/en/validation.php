@@ -166,6 +166,15 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+//        'firstname' => [
+//            'unique' => ''
+//        ],
+//        'middle_initial' => [
+//            'unique' => ''
+//        ],
+//        'lastname' => [
+//            'unique' => ''
+//        ]
     ],
 
     /*
