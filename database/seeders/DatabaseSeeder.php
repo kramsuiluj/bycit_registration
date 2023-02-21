@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
         if (!User::find(1)) {
             User::create([
                 'username' => 'admin',
-                'password' => bcrypt('itboys2022')
+                'password' => bcrypt('loremipsumdolorsitamet')
             ]);
         }
 
