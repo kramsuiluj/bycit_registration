@@ -9,6 +9,8 @@ class Sizes extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function registration()
     {
         return $this->hasMany(Registration::class);
