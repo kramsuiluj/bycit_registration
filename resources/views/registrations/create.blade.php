@@ -309,6 +309,15 @@
 
         function getType(element) {
             type = element.value;
+            if(type==='Teacher'){
+                othersContainer.style.display = 'none';
+
+                console.log(course.required);
+
+                course.required = false;
+                year.required = false;
+                section.required = false;
+            }
         }
 
         function getSize(element) {
@@ -353,15 +362,18 @@
             // console.log(typeof element.value);
 
             if (element.value === '1' || element.value === '2') {
-                if (window.innerWidth < 576) {
+                if(type!=='Teacher'){
+                    if (window.innerWidth < 576) {
                     othersContainer.style.display = 'block';
-                } else {
-                    othersContainer.style.display = 'flex';
-                }
+                    } else {
+                        othersContainer.style.display = 'flex';
+                    }
 
-                course.required = true;
-                year.required = true;
-                section.required = true;
+                    course.required = true;
+                    year.required = true;
+                    section.required = true;
+                }
+                
             } else {
                 othersContainer.style.display = 'none';
 
