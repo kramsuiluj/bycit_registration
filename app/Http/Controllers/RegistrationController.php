@@ -216,12 +216,13 @@ class RegistrationController extends Controller
 
             $registration['school'] = $registration->school->name;
             $registration['tshirt'] = $registration->size->name;
-            return $registration->only(['school', 'lastname', 'firstname', 'middle_initial', 'type', 'tshirt', 'paid', 'firstDay', 'secondDay', 'date_registered', 'course', 'year', 'section', 'nickname']);
+            return $registration->only(['id', 'school', 'lastname', 'firstname', 'middle_initial', 'type', 'tshirt', 'paid', 'firstDay', 'secondDay', 'date_registered', 'course', 'year', 'section', 'nickname']);
         });
 
         return (new FastExcel($list))
             ->download(Carbon::now()->toDateTimeString() . '-participants.xlsx', function ($list) {
                 return [
+                    'id' => $list['id'],
                     'School' => $list['school'],
                     'Last Name' => $list['lastname'],
                     'First Name' => $list['firstname'],

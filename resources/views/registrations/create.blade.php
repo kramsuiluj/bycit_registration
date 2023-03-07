@@ -48,6 +48,29 @@
     @endif
 
     <section class="w-10/12 mx-auto font-montserrat space-y-5 mb-24 sm:w-3/5 sm:ml-20">
+        
+        <div>
+            <div class="flex text-white space-x-6">
+                <div class="flex items-center space-x-2">
+                    <input onclick="getType(this)" form="register" type="radio" name="type" value="Student"
+                        id="student" class="w-4
+                    h-4 sm:w-5
+                    sm:h-5" checked>
+                    <label for="student">Student</label>
+                </div>
+
+                <div class="flex items-center space-x-2">
+                    <input onclick="getType(this)" form="register" type="radio" name="type" value="Teacher"
+                        id="teacher" class="w-4 h-4 sm:w-5
+                    sm:h-5">
+                    <label for="teacher">Teacher</label>
+                </div>
+            </div>
+
+            @error('type')
+                <p class="text-red-300 text-sm drop-shadow-md">{{ $message }}</p>
+            @enderror
+        </div>
         <div class="space-y-5 sm:space-y-0 sm:flex sm:space-x-2">
             <div class="w-full">
                 <input type="text" id="lastname" name="lastname"
@@ -185,29 +208,6 @@
                 </div>
             </div>
         </div>
-
-        <div>
-            <div class="flex text-white space-x-6">
-                <div class="flex items-center space-x-2">
-                    <input onclick="getType(this)" form="register" type="radio" name="type" value="Student"
-                        id="student" class="w-4
-                    h-4 sm:w-5
-                    sm:h-5" checked>
-                    <label for="student">Student</label>
-                </div>
-
-                <div class="flex items-center space-x-2">
-                    <input onclick="getType(this)" form="register" type="radio" name="type" value="Teacher"
-                        id="teacher" class="w-4 h-4 sm:w-5
-                    sm:h-5">
-                    <label for="teacher">Teacher</label>
-                </div>
-            </div>
-
-            @error('type')
-                <p class="text-red-300 text-sm drop-shadow-md">{{ $message }}</p>
-            @enderror
-        </div>
     </section>
 
     <section class="w-10/12 mx-auto font-montserrat sm:w-3/5 sm:ml-20 -mt-10 mb-5">
@@ -309,6 +309,25 @@
 
         function getType(element) {
             type = element.value;
+            if(type==='Teacher'){
+                othersContainer.style.display = 'none';
+
+                console.log(course.required);
+
+                course.required = false;
+                year.required = false;
+                section.required = false;
+            }else{
+                if (window.innerWidth < 576) {
+                    othersContainer.style.display = 'block';
+                    } else {
+                        othersContainer.style.display = 'flex';
+                    }
+
+                    course.required = true;
+                    year.required = true;
+                    section.required = true;
+            }
         }
 
         function getSize(element) {
@@ -353,15 +372,18 @@
             // console.log(typeof element.value);
 
             if (element.value === '1' || element.value === '2') {
-                if (window.innerWidth < 576) {
+                if(type!=='Teacher'){
+                    if (window.innerWidth < 576) {
                     othersContainer.style.display = 'block';
-                } else {
-                    othersContainer.style.display = 'flex';
-                }
+                    } else {
+                        othersContainer.style.display = 'flex';
+                    }
 
-                course.required = true;
-                year.required = true;
-                section.required = true;
+                    course.required = true;
+                    year.required = true;
+                    section.required = true;
+                }
+                
             } else {
                 othersContainer.style.display = 'none';
 
