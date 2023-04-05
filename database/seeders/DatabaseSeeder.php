@@ -22,7 +22,12 @@ class DatabaseSeeder extends Seeder
     {
         $schools = [
             'Camarines Sur Polytechnic Colleges',
-            'Camarines Sur Polytechnic Colleges - Buhi Campus',
+            'Camarines Sur Polytechnic COlleges - Buhi Campus',
+            'ACLC College of Iriga City, Inc',
+            'Bicol University - Polangui Campus',
+            'Ceguera Technological Colleges - Iriga City',
+            'Camarines Norte State College',
+            'Oliveros College Incorporated',
         ];
 
         $sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL'];
