@@ -264,7 +264,7 @@
                                         cursor-pointer
                                         hover:bg-red-600
                                         "
-                                                data-modal-target="popup-modal" data-modal-toggle="popup-modal">
+                                                data-modal-target="popup-modal" data-modal-toggle="popup-modal{{$registration->id}}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                     class="w-6 h-6 mx-auto
@@ -276,7 +276,7 @@
 
                                         </tr>
 
-                                        <div id="popup-modal" tabindex="-1"
+                                        <div id="popup-modal{{$registration->id}}" tabindex="-1"
                                             class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden
     overflow-y-auto md:inset-0 h-modal md:h-full font-montserrat">
                                             <div class="relative w-full h-full max-w-md md:h-auto">
@@ -308,14 +308,14 @@
                                                             Are you sure you want to
                                                             delete this participant?</h3>
                                                         <button id="{{ $registration->id }}"
-                                                            data-modal-hide="popup-modal" type="submit"
+                                                            data-modal-hide="popup-modal{{$registration->id}}" type="submit"
                                                             onclick="deleteParticipant(this)"
                                                             class="text-white
                                                                     bg-red-600
                                                                     hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                                                             Yes, I'm sure
                                                         </button>
-                                                        <button data-modal-hide="popup-modal" type="button"
+                                                        <button data-modal-hide="popup-modal{{$registration->id}}" type="button"
                                                             class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
                                                             cancel</button>
                                                     </div>
