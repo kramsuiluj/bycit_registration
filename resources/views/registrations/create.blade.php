@@ -14,7 +14,8 @@
         BYCIT Registration
     </h1> --}}
     <div class="w-full">
-        <img src="{{ asset('images/whiteLogo.png') }}" alt="" class="w-1/2 mx-auto sm:w-1/4 sm:mx-0 sm:ml-24 md:w-1/5" id="whiteLogo">
+        <img src="{{ asset('images/whiteLogo.png') }}" alt=""
+            class="w-1/2 mx-auto sm:w-1/4 sm:mx-0 sm:ml-24 md:w-1/5" id="whiteLogo">
     </div>
 
     @if (session()->has('success'))
@@ -36,19 +37,17 @@
         </div>
     @endif
 
-    @if($errors->has('firstname') && $errors->has('lastname') && $errors->has('middle_initial') && $errors->has
-    ('tshirt'))
+    @if ($errors->has('firstname') && $errors->has('lastname') && $errors->has('middle_initial') && $errors->has('tshirt'))
         @if (str_contains($errors->default->first('tshirt'), 'taken'))
             <div class="w-10/12 mx-auto py-2">
-                <p class="text-red-300">You are already registered. {{ old('lastname') . ', ' . old('firstname') . ' ' . old
-        ('middle_initial')
-        }}</p>
+                <p class="text-red-300">You are already registered.
+                    {{ old('lastname') . ', ' . old('firstname') . ' ' . old('middle_initial') }}</p>
             </div>
         @endif
     @endif
 
     <section class="w-10/12 mx-auto font-montserrat space-y-5 mb-24 sm:w-3/5 sm:ml-20">
-        
+
         <div>
             <div class="flex text-white space-x-6">
                 <div class="flex items-center space-x-2">
@@ -182,7 +181,7 @@
                         form="register" required>
                         <option disabled selected>T-shirt size</option>
                         @foreach ($sizes as $size)
-                            <option value="{{ $size->id }}" {{old('tshirt') == $size->id ? "selected" : ''}}>
+                            <option value="{{ $size->id }}" {{ old('tshirt') == $size->id ? 'selected' : '' }}>
                                 {{ $size->name }}
                             </option>
                         @endforeach
@@ -305,21 +304,14 @@
         const section = document.getElementById('section');
 
         let type = 'Student';
-        let size = "{{old('tshirt') ? $sizes->where('id', '=', old('tshirt'))->first()->name : ''}}";
+        let size = "{{ old('tshirt') ? $sizes->where('id', '=', old('tshirt'))->first()->name : '' }}";
 
         function getType(element) {
             type = element.value;
-            if(type==='Teacher' || (school.value !== '1' || school.value !== '2')){
-                othersContainer.style.display = 'none';
-
-                console.log(course.required);
-
-                course.required = false;
-                year.required = false;
-                section.required = false;
-            }else{
-                if (window.innerWidth < 576) {
-                    othersContainer.style.display = 'block';
+            if (school.value === '1' || school.value === '2') {
+                if (type !== 'Teacher') {
+                    if (window.innerWidth < 576) {
+                        othersContainer.style.display = 'block';
                     } else {
                         othersContainer.style.display = 'flex';
                     }
@@ -327,6 +319,24 @@
                     course.required = true;
                     year.required = true;
                     section.required = true;
+                } else {
+                    othersContainer.style.display = 'none';
+
+                    console.log(course.required);
+
+                    course.required = false;
+                    year.required = false;
+                    section.required = false;
+                }
+
+            } else {
+                othersContainer.style.display = 'none';
+
+                console.log(course.required);
+
+                course.required = false;
+                year.required = false;
+                section.required = false;
             }
         }
 
@@ -336,8 +346,10 @@
 
         // console.log(document.getElementById('size').options[document.getElementById('size').selectedIndex].text);
 
-        String.prototype.toTitleCase = function(){
-            return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        String.prototype.toTitleCase = function() {
+            return this.replace(/\w\S*/g, function(txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            });
         }
 
         window.onresize = () => {
@@ -372,9 +384,9 @@
             // console.log(typeof element.value);
 
             if (element.value === '1' || element.value === '2') {
-                if(type!=='Teacher'){
+                if (type !== 'Teacher') {
                     if (window.innerWidth < 576) {
-                    othersContainer.style.display = 'block';
+                        othersContainer.style.display = 'block';
                     } else {
                         othersContainer.style.display = 'flex';
                     }
@@ -383,7 +395,7 @@
                     year.required = true;
                     section.required = true;
                 }
-                
+
             } else {
                 othersContainer.style.display = 'none';
 
