@@ -309,7 +309,7 @@
 
         function getType(element) {
             type = element.value;
-            if(type==='Teacher'){
+            if(type==='Teacher' || (school.value !== '1' || school.value !== '2')){
                 othersContainer.style.display = 'none';
 
                 console.log(course.required);
