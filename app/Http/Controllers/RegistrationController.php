@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\RegistrationsExport;
+use Exception;
 use Carbon\Carbon;
 use App\Models\Other;
 use App\Models\Sizes;
 use App\Models\School;
 use App\Rules\EmptyOrAlpha;
 use App\Models\Registration;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Rule;
+use Illuminate\Http\JsonResponse;
+use App\Exports\RegistrationsExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Rap2hpoutre\FastExcel\FastExcel;
 use App\Http\Middleware\RemoveEmptyGetRequests;
@@ -20,6 +21,11 @@ class RegistrationController extends Controller
     public function __construct()
     {
         $this->middleware(RemoveEmptyGetRequests::class)->only('index');
+    }
+
+    public function test()
+    {
+        return view('test.test');
     }
 
     public function index()
@@ -35,9 +41,13 @@ class RegistrationController extends Controller
         ]);
     }
 
-    public function indexAttendance()
+    public function indexAttendance1()
     {
-        return view('registrations.attendance');
+        return view('registrations.attendance', ['day' => "1"]);
+    }
+    public function indexAttendance2()
+    {
+        return view('registrations.attendance', ['day' => "2"]);
     }
 
     public function getAttendees()
@@ -64,21 +74,24 @@ class RegistrationController extends Controller
         $years = ['1', '2', '3', '4'];
 
         $attributes = request()->validate([
-            'lastname' => ['required', 'max:255', 'regex:/^[a-zA-zÑñ\s]+$/', 'min:2',
+            'lastname' => [
+                'required', 'max:255', 'regex:/^[a-zA-zÑñ\s]+$/', 'min:2',
                 Rule::unique('registrations')
                     ->where('lastname', request('lastname'))
                     ->where('firstname', request('firstname'))
                     ->where('middle_initial', request('middle_initial'))
                     ->where('tshirt', request('tshirt'))
             ],
-            'firstname' => ['required', 'max:255', 'regex:/^[a-zA-zÑñ\s]+$/', 'min:2',
+            'firstname' => [
+                'required', 'max:255', 'regex:/^[a-zA-zÑñ\s]+$/', 'min:2',
                 Rule::unique('registrations')
                     ->where('lastname', request('lastname'))
                     ->where('firstname', request('firstname'))
                     ->where('middle_initial', request('middle_initial'))
                     ->where('tshirt', request('tshirt'))
             ],
-            'middle_initial' => ['max:3', new EmptyOrAlpha,
+            'middle_initial' => [
+                'max:3', new EmptyOrAlpha,
                 Rule::unique('registrations')
                     ->where('lastname', request('lastname'))
                     ->where('firstname', request('firstname'))
@@ -87,7 +100,8 @@ class RegistrationController extends Controller
             ],
             'school' => ['required', Rule::in($schoolIDs)],
             'type' => ['required', Rule::in($types)],
-            'tshirt' => ['required', Rule::in($sizes),
+            'tshirt' => [
+                'required', Rule::in($sizes),
                 Rule::unique('registrations')
                     ->where('lastname', request('lastname'))
                     ->where('firstname', request('firstname'))
@@ -139,8 +153,51 @@ class RegistrationController extends Controller
         return redirect()->back()->with('success', 'You have successfully updated the payment status.');
     }
 
+    public function qrFirst($id)
+    {
+        $registration = Registration::find($id);
+
+        if ($registration) {
+            $fullname = $registration->lastname . ", " . $registration->firstname . ($registration->middle_initial != "" ? " " . $registration->middle_initial . "." : "");
+            $tshirt = $registration->size->name;
+            try {
+                $courseSection = $registration->others->course . " " . $registration->others->year . $registration->others->section;
+            } catch (Exception $e) {
+                $courseSection = "";
+            }
+            $message = $registration->firstDay == 'yes' ? "Registration already Satisfied First Day Attendance" : "Registration Attendance Successful";
+            $registration->update(['firstDay' => 'yes']);
+
+            return response()->json(['status' => 200, 'full_name' => $fullname, 'course' => $courseSection, 'tshirt' => $tshirt, 'message' => $message]);
+        } else {
+            return response()->json(['status' => 404, 'message' => "Student not found"]);
+        }
+    }
+
+    public function qrSecond($id)
+    {
+        $registration = Registration::find($id);
+
+        if ($registration) {
+            $fullname = $registration->lastname . ", " . $registration->firstname . ($registration->middle_initial != "" ? " " . $registration->middle_initial . "." : "");
+            $tshirt = $registration->size->name;
+            try {
+                $courseSection = $registration->others->course . " " . $registration->others->year . $registration->others->section;
+            } catch (Exception $e) {
+                $courseSection = "";
+            }
+            $message = $registration->secondDay == 'yes' ? "Attendance Already Recorded" : "Attendance Recorded";
+            $registration->update(['secondDay' => 'yes']);
+
+            return response()->json(['status' => 200, 'full_name' => $fullname, 'course' => $courseSection, 'tshirt' => $tshirt, 'message' => $message]);
+        } else {
+            return response()->json(['status' => 404, 'message' => "Student not found"]);
+        }
+    }
+
     public function updateFirstDay(Registration $registration)
     {
+
         if ($registration->firstDay === 'yes') {
             $registration->update([
                 'firstDay' => 'no'
@@ -199,7 +256,7 @@ class RegistrationController extends Controller
 
     public function export()
     {
-//        return Excel::download(new RegistrationsExport(), 'registrations_list.xlsx');
+        //        return Excel::download(new RegistrationsExport(), 'registrations_list.xlsx');
         $registrations = Registration::latest()->filter(request(['school', 'paid', 'type']))->get();
 
         $list = collect($registrations)->map(function ($registration) {
@@ -241,9 +298,8 @@ class RegistrationController extends Controller
             });
     }
 
-    protected function generateQrCode($participant) {
+    protected function generateQrCode($participant)
+    {
         $filename = $participant->id . '.png';
-
-
     }
 }
