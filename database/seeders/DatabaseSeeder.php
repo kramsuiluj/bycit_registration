@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             'Ceguera Technological Colleges - Iriga City',
             'Camarines Norte State College',
             'Oliveros College Incorporated',
+	    'Naga College Foundation'
         ];
 
         $sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL'];
