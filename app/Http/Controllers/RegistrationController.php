@@ -15,6 +15,7 @@ use App\Exports\RegistrationsExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Rap2hpoutre\FastExcel\FastExcel;
 use App\Http\Middleware\RemoveEmptyGetRequests;
+use App\Models\Food;
 
 class RegistrationController extends Controller
 {
@@ -195,6 +196,50 @@ class RegistrationController extends Controller
         }
     }
 
+    public function qr_first_lunch($day, $id)
+    {
+        $registration = Registration::find($id);
+        if ($registration) {
+            $fullname = $registration->lastname . ", " . $registration->firstname . ($registration->middle_initial != "" ? " " . $registration->middle_initial . "." : "");
+            $tshirt = $registration->size->name;
+            try {
+                $courseSection = $registration->others->course . " " . $registration->others->year . $registration->others->section;
+            } catch (Exception $e) {
+                $courseSection = "";
+            }
+
+            $food = Food::where('registration', $id)->first();
+
+            if (!$food) {
+                Food::create([
+                    'registration' => $id,
+                    $day == 1 ? 'first_lunch' : 'second_lunch' => true
+                ]);
+                $message = "Lunch Recorded";
+            } else {
+                if ($day == 1) {
+                    if ($food->first_lunch == true) {
+                        $message = "Lunch already served";
+                    } else {
+                        $food->first_lunch = true;
+                        $food->save();
+                        $message = "Lunch Recorded";
+                    }
+                } else {
+                    if ($food->second_day == true) {
+                        $message = "Lunch already served";
+                    } else {
+                        $food->second_day = true;
+                        $food->save();
+                        $message = "Lunch Recorded";
+                    }
+                }
+            }
+        }
+
+        return response()->json(['status' => 200, 'full_name' => $fullname, 'course' => $courseSection, 'tshirt' => $tshirt, 'message' => $message]);
+    }
+
     public function updateFirstDay(Registration $registration)
     {
 
@@ -252,6 +297,93 @@ class RegistrationController extends Controller
         $registration->delete();
 
         return redirect(route('registrations.index'))->with('success', 'You have successfully deleted the record of the selected participant.');
+    }
+
+    public function first_lunch()
+    {
+        return view('snack.lunch', ['day' => 1]);
+    }
+    public function second_lunch()
+    {
+        return view('snack.lunch', ['day' => 2]);
+    }
+    public function first_snack_am()
+    {
+        return view('snack.snack', ['day' => 1]);
+    }
+    public function first_snack_pm()
+    {
+        return view('snack.snack', ['day' => 2]);
+    }
+    public function second_snack_am()
+    {
+        return view('snack.snack', ['day' => 3]);
+    }
+    public function second_snack_pm()
+    {
+        return view('snack.snack', ['day' => 4]);
+    }
+
+    public function snack($day, $id)
+    {
+        $registration = Registration::find($id);
+        if ($registration) {
+            $fullname = $registration->lastname . ", " . $registration->firstname . ($registration->middle_initial != "" ? " " . $registration->middle_initial . "." : "");
+            $tshirt = $registration->size->name;
+            try {
+                $courseSection = $registration->others->course . " " . $registration->others->year . $registration->others->section;
+            } catch (Exception $e) {
+                $courseSection = "";
+            }
+
+            $types = ["first_snack_am", "first_snack_pm", "second_snack_am", "second_snack_pm"];
+            $food = Food::where('registration', $id)->first();
+
+            if (!$food) {
+                Food::create([
+                    'registration' => $id,
+                    $types[$day - 1] => true
+                ]);
+                $message = "Lunch Recorded";
+            } else {
+
+                if ($day == 1) {
+                    if ($food->first_snack_am == true) {
+                        $message = "First Day AM Snack already served";
+                    } else {
+                        $food->first_snack_am = true;
+                        $food->save();
+                        $message = "First Day AM Snack Recorded";
+                    }
+                } else if ($day == 2) {
+                    if ($food->first_snack_pm == true) {
+                        $message = "First Day PM Snack already served";
+                    } else {
+                        $food->first_snack_pm = true;
+                        $food->save();
+                        $message = "First Day PM Snack Recorded";
+                    }
+                } else if ($day == 3) {
+                    if ($food->second_snack_am == true) {
+                        $message = "Second Day AM Snack already served";
+                    } else {
+                        $food->second_snack_am = true;
+                        $food->save();
+                        $message = "Second Day AM Snack Recorded";
+                    }
+                } else {
+                    if ($food->second_snack_pm == true) {
+                        $message = "Second Day PM Snack already served";
+                    } else {
+                        $food->second_snack_pm = true;
+                        $food->save();
+                        $message = "Second Day PM Snack Recorded";
+                    }
+                }
+            }
+        }
+
+        return response()->json(['status' => 200, 'full_name' => $fullname, 'course' => $courseSection, 'tshirt' => $tshirt, 'message' => $message]);
     }
 
     public function export()
