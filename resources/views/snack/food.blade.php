@@ -26,14 +26,14 @@
         </div>
     </header>
    <div class="flex flex-col items-center">
-        <a class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" href="{{route('registrations.firstDay')}}">First Day Registration</a> <br />
-        <a class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" href="{{route('registrations.secondDay')}}">Second Day Registration</a><br />
-        <a class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" href="{{route('registrations.first_snack_am')}}">First Day Snack AM</a><br />
-        <a class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" href="{{route('registrations.first_snack_pm')}}">First Day Snack PM</a><br />
-        <a class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" href="{{route('registrations.second_snack_am')}}">Second Day Snack AM</a><br />
-        <a class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" href="{{route('registrations.second_snack_pm')}}">Second Day Snack PM</a><br />
-        <a class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" href="{{route('registrations.first_lunch')}}">First Day Lunch</a><br />
-        <a class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded" href="{{route('registrations.second_lunch')}}">Second Day Lunch</a><br />
+        <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" href="{{route('registrations.firstDay')}}">First Day Registration</a> <br />
+        <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" href="{{route('registrations.secondDay')}}">Second Day Registration</a><br />
+        <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" href="{{route('registrations.first_snack_am')}}">First Day Snack AM</a><br />
+        <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" href="{{route('registrations.first_snack_pm')}}">First Day Snack PM</a><br />
+        <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" href="{{route('registrations.second_snack_am')}}">Second Day Snack AM</a><br />
+        <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" href="{{route('registrations.second_snack_pm')}}">Second Day Snack PM</a><br />
+        <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" href="{{route('registrations.first_lunch')}}">First Day Lunch</a><br />
+        <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" href="{{route('registrations.second_lunch')}}">Second Day Lunch</a><br />
         
    </div>
 </x-layout>
