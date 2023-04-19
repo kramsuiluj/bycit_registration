@@ -16,15 +16,15 @@ Route::post('/admin/login', [SessionController::class, 'login'])->name('admin.lo
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'admin/registrations', 'as' => 'registrations.'], function () {
         Route::get('/', [RegistrationController::class, 'index'])->name('index');
-        Route::get('/attendance/firstDay', [RegistrationController::class, 'indexAttendance1'])->name('registrations.firstDay');
-        Route::get('/attendance/secondDay', [RegistrationController::class, 'indexAttendance2'])->name('registrations.secondDay');
+        Route::get('/attendance/firstDay', [RegistrationController::class, 'indexAttendance1'])->name('firstDay');
+        Route::get('/attendance/secondDay', [RegistrationController::class, 'indexAttendance2'])->name('secondDay');
         Route::post('/export', [RegistrationController::class, 'export'])->name('export');
-        Route::get('/snack/first_day/am', [RegistrationController::class, 'first_snack_am'])->Name('first_snack_am');
-        Route::get('/snack/first_day/pm', [RegistrationController::class, 'first_snack_pm'])->Name('first_snack_pm');
-        Route::get('/snack/second_day/am', [RegistrationController::class, 'second_snack_am'])->Name('second_snack_am');
-        Route::get('/snack/second_day/pm', [RegistrationController::class, 'second_Snack_pm'])->Name('second_Snack_pm');
-        Route::get('/lunch/first_day', [RegistrationController::class, 'first_lunch'])->Name('first_lunch');
-        Route::get('/lunch/second_day', [RegistrationController::class, 'second_lunch'])->Name('second_lunch');
+        Route::get('/snack/first_day/am', [RegistrationController::class, 'first_snack_am'])->name('first_snack_am');
+        Route::get('/snack/first_day/pm', [RegistrationController::class, 'first_snack_pm'])->name('first_snack_pm');
+        Route::get('/snack/second_day/am', [RegistrationController::class, 'second_snack_am'])->name('second_snack_am');
+        Route::get('/snack/second_day/pm', [RegistrationController::class, 'second_Snack_pm'])->name('second_snack_pm');
+        Route::get('/lunch/first_day', [RegistrationController::class, 'first_lunch'])->name('first_lunch');
+        Route::get('/lunch/second_day', [RegistrationController::class, 'second_lunch'])->name('second_lunch');
         Route::get("/lunch/{day}/{registration}", [RegistrationController::class, 'qr_first_lunch'])->name('qr_first_lunch');
         Route::get("/snack/{day}/{registration}", [RegistrationController::class, 'snack'])->name('snack');
         Route::patch('/{registration}', [RegistrationController::class, 'update'])->name('update');
@@ -33,7 +33,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get("/attendance/second/{registration}", [RegistrationController::class, 'qrSecond'])->name('qrSecond');
         Route::patch('/second/{registration}', [RegistrationController::class, 'updateSecondDay'])->name('updateSecondDay');
         Route::delete('/{registration}/delete', [RegistrationController::class, 'destroy'])->name('destroy');
-        Route::get('/test', [RegistrationController::class, 'test']);
+        Route::get('/food', function() {
+            return view('snack.food');
+        });
     });
 
     Route::delete('/logout', [SessionController::class, 'logout'])->name('logout');
