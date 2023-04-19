@@ -26,6 +26,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/lunch/first_day', [RegistrationController::class, 'first_lunch'])->Name('first_lunch');
         Route::get('/lunch/second_day', [RegistrationController::class, 'second_lunch'])->Name('second_lunch');
         Route::get("/lunch/{day}/{registration}", [RegistrationController::class, 'qr_first_lunch'])->name('qr_first_lunch');
+        Route::get("/snack/{day}/{registration}", [RegistrationController::class, 'snack'])->name('snack');
         Route::patch('/{registration}', [RegistrationController::class, 'update'])->name('update');
         Route::patch('/first/{registration}', [RegistrationController::class, 'updateFirstDay'])->name('updateFirstDay');
         Route::get("/attendance/first/{registration}", [RegistrationController::class, 'qrFirst'])->name('qrFirst');

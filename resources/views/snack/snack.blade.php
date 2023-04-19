@@ -96,7 +96,7 @@
             var id = result.data
             $.ajax({
                     type: 'get',
-                    url: `/admin/registrations/lunch/${day.value}/${id}`,
+                    url: `/admin/registrations/snack/${day.value}/${id}`,
                     
                     success: function(response){
                         var message = response['message'] ?? "Not Found"
@@ -108,15 +108,14 @@
                             modalContainer.style.position = 'fixed';
                             modalContent.style.display = 'block';
                             var alreadyServed = /already/.test(message)
-
                             qr.style.display = 'none';
                             participantName.append(`Full Name: ${fullName}`)
                             participantSize.append(`T-shirt Size: ${size}`)
                             participantCourse.append(`Course: ${course}`)
                             participantNote.append(`Note: ${message}`)
+                            participantNote.classList.add('font-bold')
                             if(alreadyServed)
                                 participantNote.classList.add('text-red-500')
-
                             confirmBtn.addEventListener('click', ()=>{
                                 modalContainer.style.display = 'none';
                                 modalContent.style.display = 'none';
@@ -126,7 +125,8 @@
                                 participantCourse.innerHTML = ''
                                 participantNote.innerHTML = ''
                                 if(alreadyServed)
-                                    participantNote.classList.remove('text-red-500')
+                                  participantNote.classList.remove('text-red-500')
+
 
                             })
                         }
