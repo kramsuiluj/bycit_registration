@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\RegistrationController;
 
-//Route::get('/', [RegistrationController::class, 'create'])->name('registrations.create');
-Route::view('/', 'test');
+Route::get('/', [RegistrationController::class, 'create'])->name('registrations.create');
 Route::post('/register', [RegistrationController::class, 'store'])->name('registrations.store');
 Route::view('/login', 'login');
 Route::post('/admin/login', [SessionController::class, 'login'])->name('admin.login');
